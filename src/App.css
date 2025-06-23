@@ -1,0 +1,841 @@
+/* Enhanced App CSS with animations and effects matching Mini-Project-1 */
+
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Orbitron:wght@400;700;900&display=swap");
+
+/* CSS Custom Properties for consistency */
+:root {
+    --primary-font: "Roboto", sans-serif;
+    --brand-font: "Orbitron", monospace;
+    --primary-color: #1565c0;
+    --secondary-color: #c51162;
+    --success-color: #2e7d32;
+    --warning-color: #f57c00;
+    --danger-color: #d32f2f;
+    --gradient-primary: linear-gradient(135deg, #1565c0 0%, #283593 100%);
+    --gradient-secondary: linear-gradient(135deg, #c51162 0%, #ad1457 100%);
+    --gradient-success: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+    --gradient-dark: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    --gradient-dark-secondary: linear-gradient(
+        135deg,
+        #90caf9 0%,
+        #f48fb1 100%
+    );
+}
+
+/* Global styles */
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--primary-font);
+    scroll-behavior: smooth;
+}
+
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: #1a1a1a;
+}
+
+/* Dark mode body styling */
+body.dark-mode {
+    background: var(--gradient-dark);
+    background-attachment: fixed;
+}
+
+/* App container */
+.App {
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Loading Animation */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Book Loading Animation */
+.book-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9999;
+    animation: fadeOut 0.5s ease-out 1s forwards;
+}
+
+.book-loader.hide {
+    animation: fadeOut 0.5s ease-out forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        visibility: visible;
+    }
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+.book {
+    width: 80px;
+    height: 100px;
+    background: #8b4513;
+    border-radius: 5px;
+    position: relative;
+    margin-bottom: 20px;
+    animation: bounce-book 2s ease-in-out infinite;
+    box-shadow:
+        inset -5px -5px 10px rgba(0, 0, 0, 0.2),
+        inset 5px 5px 10px rgba(255, 255, 255, 0.1);
+}
+
+.book::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    height: 60px;
+    background: #f5f5dc;
+    border-radius: 2px;
+}
+
+.book::after {
+    content: "";
+    position: absolute;
+    top: 80px;
+    left: 10px;
+    right: 10px;
+    height: 3px;
+    background: #654321;
+    border-radius: 2px;
+}
+
+@keyframes bounce-book {
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-30px) rotate(5deg);
+    }
+}
+
+.book-loader-text {
+    color: white;
+    font-family: var(--brand-font);
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: pulse-text 2s ease-in-out infinite;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes pulse-text {
+    0%,
+    100% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+/* Glow animation for brand elements */
+@keyframes glow {
+    from {
+        text-shadow:
+            0 0 5px #fff,
+            0 0 10px #fff,
+            0 0 15px #0073e6,
+            0 0 20px #0073e6;
+        filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+    }
+    to {
+        text-shadow:
+            0 0 10px #fff,
+            0 0 20px #fff,
+            0 0 25px #0073e6,
+            0 0 30px #0073e6;
+        filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.5));
+    }
+}
+
+/* Fade in animation matching MP1 */
+.fade-in {
+    animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Brand font styling matching MP1 */
+.brand-font {
+    font-family: var(--brand-font);
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+/* Navigation item hover effects */
+.nav-item-hover {
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    margin: 0.25rem;
+}
+
+.nav-item-hover:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Fade in up animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slide down animation */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Pulse animation */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Bounce animation */
+@keyframes bounce {
+    0%,
+    20%,
+    60%,
+    100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    80% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Custom utility classes */
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Text gradient classes matching MP1 */
+.text-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+    text-shadow: none;
+}
+
+.text-gradient-dark {
+    background: var(--gradient-dark-secondary);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+}
+
+/* Navigation enhancements matching MP1 */
+.nav-link-enhanced {
+    transition: all 0.3s ease;
+    border-radius: 25px;
+    margin: 0 5px;
+    padding: 8px 16px;
+}
+
+.nav-link-enhanced:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.nav-link-enhanced.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white !important;
+    font-weight: 500;
+}
+
+.button-shine {
+    position: relative;
+    overflow: hidden;
+}
+
+.button-shine::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    transition: left 0.5s;
+}
+
+.button-shine:hover::before {
+    left: 100%;
+}
+
+/* Enhanced scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gradient-primary);
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gradient-secondary);
+}
+
+/* Dark mode scrollbar */
+.dark-mode ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode ::-webkit-scrollbar-thumb {
+    background: var(--gradient-dark-secondary);
+}
+
+.dark-mode ::-webkit-scrollbar-thumb:hover {
+    background: var(--gradient-secondary);
+}
+
+/* Statistics display enhancements matching MP1 */
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+    animation: pulse 2s infinite;
+}
+
+.dark-mode .stat-value {
+    background: var(--gradient-dark-secondary);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Book card enhancements */
+/* Card enhancements matching MP1 */
+.card-hover-effect {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: none !important;
+    border-radius: 15px !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-hover-effect::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    transition: left 0.5s;
+    z-index: 1;
+}
+
+.card-hover-effect:hover::before {
+    left: 100%;
+}
+
+.card-hover-effect:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Book card specific styling */
+.book-card {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px !important;
+}
+
+.book-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: left 0.8s;
+    z-index: 1;
+}
+
+.book-card:hover::before {
+    left: 100%;
+}
+
+.book-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* Progress bar animations */
+.progress-bar-animated {
+    background: var(--gradient-success);
+    animation: progress-animation 2s ease-in-out;
+}
+
+@keyframes progress-animation {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: var(--progress-width, 0%);
+    }
+}
+
+/* Form enhancements */
+.form-container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.dark-mode .form-container {
+    background: rgba(30, 30, 30, 0.95);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Status badge animations */
+.status-badge {
+    animation: pulse 2s infinite;
+    border-radius: 20px;
+    font-weight: 500;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.status-wishlist {
+    background: var(--gradient-secondary) !important;
+    color: white !important;
+}
+
+.status-reading {
+    background: var(--gradient-primary) !important;
+    color: white !important;
+}
+
+.status-finished {
+    background: var(--gradient-success) !important;
+    color: white !important;
+}
+
+/* Reading progress animations */
+.progress-ring {
+    transform: rotate(-90deg);
+    animation: progress-ring-animation 2s ease-out;
+}
+
+@keyframes progress-ring-animation {
+    0% {
+        stroke-dasharray: 0 314;
+    }
+    100% {
+        stroke-dasharray: var(--progress-dash, 0) 314;
+    }
+}
+
+/* Mobile responsiveness */
+/* Responsive fixed positioning */
+@media (max-width: 1024px) {
+    .floating-toc:hover {
+        transform: none;
+        animation: none;
+    }
+
+    /* On mobile, ensure fixed TOC doesn't interfere */
+    .floating-toc {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        width: 100% !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        animation: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .book-card:hover {
+        transform: translateY(-4px) scale(1.01);
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+    }
+
+    .card-hover-effect:hover {
+        transform: translateY(-4px) scale(1.01);
+    }
+
+    .floating-toc .MuiListItemButton-root:hover {
+        transform: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .stat-value {
+        font-size: 1.2rem;
+    }
+
+    .book-card {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Focus and accessibility improvements */
+.MuiButton-root:focus,
+.MuiIconButton-root:focus,
+.MuiTab-root:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .text-gradient,
+    .text-gradient-dark,
+    .stat-value {
+        color: #000000;
+        text-shadow: none;
+    }
+
+    body {
+        background: #ffffff;
+    }
+
+    .dark-mode body {
+        background: #000000;
+        color: #ffffff;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Print styles */
+@media print {
+    body {
+        background: white !important;
+        color: black !important;
+    }
+
+    .MuiAppBar-root,
+    .book-loader,
+    .loading {
+        display: none !important;
+    }
+
+    .text-gradient,
+    .text-gradient-dark,
+    .stat-value {
+        color: black !important;
+        text-shadow: none !important;
+    }
+}
+
+/* Fixed TOC Navigation */
+.floating-toc {
+    transition: all 0.08s ease-out;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    animation: float-pulse 4s ease-in-out infinite;
+    position: relative;
+}
+
+.floating-toc:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px) scale(1.01);
+    animation: float-pulse-hover 2s ease-in-out infinite;
+}
+
+.floating-toc.scrolling {
+    transform: scale(0.98);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes float-pulse {
+    0%,
+    100% {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+    50% {
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+    }
+}
+
+@keyframes float-pulse-hover {
+    0%,
+    100% {
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    }
+    50% {
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    }
+}
+
+/* Scroll indicator animation */
+@keyframes scroll-indicator {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.scroll-indicator {
+    background: linear-gradient(
+        90deg,
+        transparent,
+        #667eea,
+        #764ba2,
+        transparent
+    );
+    background-size: 200% 100%;
+    animation: scroll-indicator 2s linear infinite;
+}
+
+.floating-toc .MuiListItemButton-root {
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    margin: 0.25rem 0.5rem;
+}
+
+.floating-toc .MuiListItemButton-root:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.floating-toc .MuiListItemButton-root:hover .MuiListItemIcon-root {
+    color: white !important;
+}
+
+.floating-toc .MuiListItemButton-root:hover .MuiListItemText-primary {
+    color: white !important;
+    font-weight: 500;
+}
+
+/* Smooth scroll enhancement */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Fixed TOC scrollbar styling */
+.floating-toc::-webkit-scrollbar {
+    width: 6px;
+}
+
+.floating-toc::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+}
+
+.floating-toc::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 3px;
+    transition: background 0.3s ease;
+}
+
+.floating-toc::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+}
+
+/* Back to top button enhancement */
+.back-to-top-button {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.back-to-top-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    transition: left 0.5s;
+}
+
+.back-to-top-button:hover::before {
+    left: 100%;
+}
+
+.back-to-top-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Additional enhancement classes */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark-mode .glass-effect {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.gradient-border {
+    border: 2px solid transparent;
+    background:
+        linear-gradient(white, white) padding-box,
+        var(--gradient-primary) border-box;
+}
+
+.dark-mode .gradient-border {
+    background:
+        linear-gradient(#1e1e1e, #1e1e1e) padding-box,
+        var(--gradient-dark-secondary) border-box;
+}
+
+.shimmer {
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}

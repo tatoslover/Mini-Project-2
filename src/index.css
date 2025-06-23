@@ -1,0 +1,293 @@
+/* Global CSS Reset and Base Styles matching Module3LabPortfolio theme */
+:root {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+
+  /* Theme Colors */
+  --primary-color: #667eea;
+  --primary-dark: #764ba2;
+  --secondary-color: #9b59b6;
+  --button-color: #d2691e;
+  --button-dark: #be5f19;
+  --background-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --text-primary: #1a1a1a;
+  --text-secondary: #2c3e50;
+  --card-bg: #ffffff;
+  --border-color: #e9ecef;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.15);
+
+  /* Dark mode colors */
+  --dark-bg: #1a1a1a;
+  --dark-card: #2a2a2a;
+  --dark-text: #e0e0e0;
+  --dark-border: #444;
+
+  color-scheme: light dark;
+  color: var(--text-primary);
+  background: var(--background-gradient);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: var(--background-gradient);
+  min-height: 100vh;
+  min-width: 320px;
+  font-weight: 500;
+}
+
+a {
+  font-weight: 500;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+h2 {
+  font-size: 1.8rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+button {
+  border-radius: 8px;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  background: linear-gradient(45deg, var(--button-color), var(--button-dark));
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: none;
+}
+
+button:hover {
+  background: linear-gradient(45deg, var(--button-dark), #aa560e);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(210, 105, 30, 0.3);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Form Elements */
+input, select, textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px 12px;
+  transition: border-color 0.3s ease;
+  background: white;
+  color: var(--text-primary);
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Utility Classes */
+.text-center {
+  text-align: center;
+}
+
+.text-primary {
+  color: var(--primary-color);
+}
+
+.text-secondary {
+  color: var(--secondary-color);
+}
+
+.bg-primary {
+  background: linear-gradient(45deg, var(--button-color), var(--button-dark));
+  color: white;
+}
+
+.bg-gradient {
+  background: var(--background-gradient);
+  color: white;
+}
+
+.shadow {
+  box-shadow: var(--shadow);
+}
+
+.shadow-hover {
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.shadow-hover:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-5px);
+}
+
+.border-radius {
+  border-radius: 15px;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: var(--dark-text);
+    background: var(--dark-bg);
+  }
+
+  body {
+    background: var(--dark-bg);
+    color: var(--dark-text);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--dark-text);
+  }
+
+  input, select, textarea {
+    background: var(--dark-card);
+    border-color: var(--dark-border);
+    color: var(--dark-text);
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--primary-color);
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  button {
+    padding: 12px 16px;
+    font-size: 0.95rem;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  :root {
+    --primary-color: #4c3d99;
+    --button-color: #b8460e;
+    --button-dark: #a03a0b;
+    --text-primary: #000000;
+    --text-secondary: #000000;
+    --border-color: #000000;
+  }
+
+  button {
+    border: 2px solid #000000;
+    background: #000000 !important;
+    color: #ffffff !important;
+  }
+
+  input, select, textarea {
+    border: 2px solid #000000;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  a {
+    color: #000000 !important;
+    text-decoration: underline;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Print Styles */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  button {
+    background: white !important;
+    color: black !important;
+    border: 1px solid black !important;
+  }
+
+  .shadow, .shadow-hover {
+    box-shadow: none !important;
+  }
+}
