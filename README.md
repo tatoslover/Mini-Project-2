@@ -235,13 +235,12 @@ The application includes a curated collection of 30 demo books across different 
 - **Total Books**: 30
 - **Wishlist**: 6 books
 - **Currently Reading**: 3 books
-- **Finished (2025)**: 11 books
+- **Finished (2025)**: 12 books
 - **Finished (2024)**: 6 books
 - **Finished (2023)**: 3 books
-- **Current Year Finished**: 1 book
 
 ### Featured Books with Cover Images
-The collection includes several books with embedded cover images from reliable CDN sources:
+The collection includes 14 books with embedded cover images from reliable CDN sources:
 
 **Classic Literature:**
 - *Moby Dick* by Herman Melville (1851)
@@ -250,6 +249,7 @@ The collection includes several books with embedded cover images from reliable C
 - *The Catcher in the Rye* by J.D. Salinger
 
 **Fantasy & Science Fiction:**
+- *The Hobbit* by J.R.R. Tolkien
 - *The Lord of the Rings* trilogy (The Fellowship, The Two Towers, The Return of the King)
 - *Dune* by Frank Herbert
 - *The Hitchhiker's Guide to the Galaxy* by Douglas Adams
@@ -258,17 +258,12 @@ The collection includes several books with embedded cover images from reliable C
 **Contemporary Fiction:**
 - *Red, White & Royal Blue* by Casey McQuiston
 - *Call Me By Your Name* by André Aciman
-- *Beach Read* by Emily Henry
 
-**Romance & Historical Fiction:**
+**Romance:**
 - *The Duke and I* by Julia Quinn
-- *Pride and Prejudice* by Jane Austen
-- *Outlander* by Diana Gabaldon
 
-**Non-Fiction & Memoir:**
+**Non-Fiction:**
 - *Me Talk Pretty One Day* by David Sedaris
-- *The Fear Bubble* by Ant Middleton
-- *The Liar* by Stephen Fry
 
 ### Book Organization Features
 
