@@ -46,25 +46,38 @@ const LoginPage = () => {
 
   // Dark mode TextField styling
   const textFieldSx = {
+    '& .MuiInputLabel-root': {
+      color: (theme) =>
+        theme.palette.mode === 'dark' ? '#ffffff !important' : '#000000 !important',
+      '&.Mui-focused': {
+        color: (theme) =>
+          theme.palette.mode === 'dark' ? '#90caf9 !important' : '#1976d2 !important',
+      },
+    },
+    '& .MuiFormHelperText-root': {
+      color: (theme) =>
+        theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.7) !important' : 'inherit',
+    },
     '& .MuiOutlinedInput-root': {
       backgroundColor: (theme) =>
-        theme.palette.mode === 'dark' ? '#424242 !important' : '#ffffff !important',
+        theme.palette.mode === 'dark' ? '#2a2a2a !important' : '#ffffff !important',
       color: (theme) =>
         theme.palette.mode === 'dark' ? '#ffffff !important' : '#000000 !important',
       '& fieldset': {
         borderColor: (theme) =>
-          theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.23) !important' : 'rgba(0, 0, 0, 0.23) !important',
+          theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.3) !important' : 'rgba(0, 0, 0, 0.23) !important',
       },
       '&:hover fieldset': {
         borderColor: (theme) =>
-          theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.4) !important' : 'rgba(0, 0, 0, 0.4) !important',
+          theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5) !important' : 'rgba(0, 0, 0, 0.4) !important',
       },
       '&.Mui-focused fieldset': {
-        borderColor: '#1976d2 !important',
+        borderColor: (theme) =>
+          theme.palette.mode === 'dark' ? '#90caf9 !important' : '#1976d2 !important',
       },
       '&.Mui-focused': {
         backgroundColor: (theme) =>
-          theme.palette.mode === 'dark' ? '#424242 !important' : '#ffffff !important',
+          theme.palette.mode === 'dark' ? '#2a2a2a !important' : '#ffffff !important',
       },
       '& input': {
         color: (theme) =>
@@ -207,7 +220,7 @@ const LoginPage = () => {
     }
 
     try {
-      const users = JSON.parse(localStorage.getItem("bookTracker_users") || "[]");
+      const users = JSON.parse(localStorage.getItem("bookTrackerDemo_users") || "[]");
       // Filter out any null/undefined users and ensure they have username property
       const validUsers = users.filter(u => u && typeof u === 'object' && u.username);
       const isTaken = validUsers.find(u => u.username.toLowerCase() === username.toLowerCase());
@@ -317,7 +330,7 @@ const LoginPage = () => {
     }
 
     try {
-      const users = JSON.parse(localStorage.getItem("bookTracker_users") || "[]");
+      const users = JSON.parse(localStorage.getItem("bookTrackerDemo_users") || "[]");
       const validUsers = users.filter(u => u && typeof u === 'object' && u.username);
       const userExists = validUsers.find(u => u.username.toLowerCase() === username.toLowerCase());
 
@@ -493,7 +506,7 @@ const LoginPage = () => {
       console.log('About to reveal password synchronously');
 
       // Get users from localStorage directly (synchronous)
-      const users = JSON.parse(localStorage.getItem("bookTracker_users") || "[]");
+      const users = JSON.parse(localStorage.getItem("bookTrackerDemo_users") || "[]");
 
       // Filter out invalid users and find the target user
       const validUsers = users.filter(u => u && typeof u === 'object' && u.username);
@@ -577,7 +590,7 @@ const LoginPage = () => {
                 <BookIcon sx={{ fontSize: 32 }} />
               </Avatar>
               <Typography variant="h3" fontWeight="bold">
-                BookTracker
+                BookTrackerDemo
               </Typography>
             </Box>
 
@@ -621,9 +634,15 @@ const LoginPage = () => {
               flex: 1,
               maxWidth: 450,
               borderRadius: 3,
-              boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
+              boxShadow: (theme) =>
+                theme.palette.mode === 'dark'
+                  ? "0 20px 40px rgba(0,0,0,0.5)"
+                  : "0 20px 40px rgba(0,0,0,0.1)",
               backdropFilter: "blur(10px)",
-              backgroundColor: "rgba(255, 255, 255, 0.95)",
+              backgroundColor: (theme) =>
+                theme.palette.mode === 'dark'
+                  ? "rgba(33, 33, 33, 0.95)"
+                  : "rgba(255, 255, 255, 0.95)",
             }}
           >
             <CardContent sx={{ p: 4 }}>
@@ -641,7 +660,10 @@ const LoginPage = () => {
                 variant="body2"
                 textAlign="center"
                 mb={3}
-                sx={{ color: "text.secondary", opacity: 0.8 }}
+                sx={{
+                  color: "text.primary",
+                  opacity: (theme) => theme.palette.mode === 'dark' ? 0.9 : 0.8
+                }}
               >
                 {activeTab === 0
                   ? "Sign in to continue your reading journey"
@@ -684,16 +706,20 @@ const LoginPage = () => {
                   severity="error"
                   sx={{
                     mb: 3,
-                    backgroundColor: '#ffebee',
-                    border: '2px solid #f44336',
+                    backgroundColor: (theme) =>
+                      theme.palette.mode === 'dark' ? '#3e2723' : '#ffebee',
+                    border: (theme) =>
+                      theme.palette.mode === 'dark' ? '2px solid #ef5350' : '2px solid #f44336',
                     borderRadius: 2,
                     '& .MuiAlert-message': {
                       fontWeight: 'bold',
                       fontSize: '1rem',
-                      color: '#d32f2f'
+                      color: (theme) =>
+                        theme.palette.mode === 'dark' ? '#ffcdd2' : '#d32f2f'
                     },
                     '& .MuiAlert-icon': {
-                      color: '#f44336'
+                      color: (theme) =>
+                        theme.palette.mode === 'dark' ? '#ef5350' : '#f44336'
                     }
                   }}
                 >
@@ -718,7 +744,15 @@ const LoginPage = () => {
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
-                            <PersonIcon color={validFields.username ? "success" : "action"} />
+                            <PersonIcon
+                              sx={{
+                                color: validFields.username
+                                  ? "success.main"
+                                  : (theme) => theme.palette.mode === 'dark'
+                                    ? 'rgba(255, 255, 255, 0.7)'
+                                    : 'action.active'
+                              }}
+                            />
                           </InputAdornment>
                         ),
                       }}
@@ -754,14 +788,24 @@ const LoginPage = () => {
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
-                            <LockIcon color="action" />
+                            <LockIcon
+                              sx={{
+                                color: (theme) => theme.palette.mode === 'dark'
+                                  ? 'rgba(255, 255, 255, 0.7)'
+                                  : 'action.active'
+                              }}
+                            />
                           </InputAdornment>
                         ),
                         endAdornment: (
                           <InputAdornment position="end">
                             <IconButton
                               onClick={() => setShowPassword(!showPassword)}
-                              sx={{ color: "primary.main" }}
+                              sx={{
+                                color: (theme) => theme.palette.mode === 'dark'
+                                  ? '#90caf9'
+                                  : 'primary.main'
+                              }}
                               edge="end"
                             >
                               {showPassword ? (
@@ -807,7 +851,12 @@ const LoginPage = () => {
                           setRevealedPassword("");
                           setCopyFeedback("");
                         }}
-                        sx={{ textTransform: "none" }}
+                        sx={{
+                          textTransform: "none",
+                          color: (theme) => theme.palette.mode === 'dark'
+                            ? '#90caf9'
+                            : 'primary.main'
+                        }}
                         type="button"
                       >
                         Forgot Password?
@@ -817,12 +866,25 @@ const LoginPage = () => {
                     <Divider
                       sx={{
                         my: 2,
-                        "& .MuiDivider-wrapper": { color: "text.primary" },
+                        "& .MuiDivider-wrapper": {
+                          color: "text.primary",
+                          opacity: (theme) => theme.palette.mode === 'dark' ? 0.9 : 1
+                        },
+                        "&::before, &::after": {
+                          borderColor: (theme) =>
+                            theme.palette.mode === 'dark'
+                              ? 'rgba(255, 255, 255, 0.12)'
+                              : 'rgba(0, 0, 0, 0.12)'
+                        }
                       }}
                     >
                       <Typography
                         variant="body2"
-                        sx={{ color: "text.primary", fontWeight: 500 }}
+                        sx={{
+                          color: "text.primary",
+                          fontWeight: 500,
+                          opacity: (theme) => theme.palette.mode === 'dark' ? 0.9 : 1
+                        }}
                       >
                         or
                       </Typography>
@@ -865,11 +927,17 @@ const LoginPage = () => {
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
-                            <PersonIcon color="action" />
+                            <PersonIcon
+                              sx={{
+                                color: (theme) => theme.palette.mode === 'dark'
+                                  ? 'rgba(255, 255, 255, 0.7)'
+                                  : 'action.active'
+                              }}
+                            />
                           </InputAdornment>
                         ),
                       }}
-                      sx={{}}
+                      sx={textFieldSx}
                     />
 
                     <TextField
@@ -891,7 +959,17 @@ const LoginPage = () => {
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
-                            <PersonIcon color={getUsernameIconColor(signupForm.username)} />
+                            <PersonIcon
+                              sx={{
+                                color: usernameAvailability[signupForm.username] === false
+                                  ? 'error.main'
+                                  : validFields.username
+                                    ? 'success.main'
+                                    : (theme) => theme.palette.mode === 'dark'
+                                      ? 'rgba(255, 255, 255, 0.7)'
+                                      : 'action.active'
+                              }}
+                            />
                           </InputAdornment>
                         ),
                       }}
@@ -938,15 +1016,25 @@ const LoginPage = () => {
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
-                            <LockIcon color="action" />
+                            <LockIcon
+                              sx={{
+                                color: (theme) => theme.palette.mode === 'dark'
+                                  ? 'rgba(255, 255, 255, 0.7)'
+                                  : 'action.active'
+                              }}
+                            />
                           </InputAdornment>
                         ),
                         endAdornment: (
                           <InputAdornment position="end">
                             <IconButton
                               onClick={() => setShowPassword(!showPassword)}
-                              sx={{ color: "primary.main" }}
                               edge="end"
+                              sx={{
+                                color: (theme) => theme.palette.mode === 'dark'
+                                  ? '#90caf9'
+                                  : 'primary.main'
+                              }}
                             >
                               {showPassword ? (
                                 <VisibilityOff />
@@ -967,14 +1055,20 @@ const LoginPage = () => {
                       onChange={(e) =>
                         handleSignupChange("confirmPassword", e.target.value)
                       }
-                      error={!!formErrors.confirmPassword || (hasTriedSignup && (!signupForm.confirmPassword || signupForm.password !== signupForm.confirmPassword))}
-                      helperText={formErrors.confirmPassword || (hasTriedSignup && !signupForm.confirmPassword ? "Please confirm your password" : hasTriedSignup && signupForm.password !== signupForm.confirmPassword ? "Passwords do not match" : "")}
+                      error={!!formErrors.confirmPassword || (hasTriedSignup && (!signupForm.confirmPassword || signupForm.confirmPassword !== signupForm.password))}
+                      helperText={formErrors.confirmPassword || (hasTriedSignup && !signupForm.confirmPassword ? "Please confirm your password" : hasTriedSignup && signupForm.confirmPassword !== signupForm.password ? "Passwords do not match" : "")}
                       margin="normal"
                       sx={textFieldSx}
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
-                            <LockIcon color="action" />
+                            <LockIcon
+                              sx={{
+                                color: (theme) => theme.palette.mode === 'dark'
+                                  ? 'rgba(255, 255, 255, 0.7)'
+                                  : 'action.active'
+                              }}
+                            />
                           </InputAdornment>
                         ),
                         endAdornment: (
@@ -983,8 +1077,12 @@ const LoginPage = () => {
                               onClick={() =>
                                 setShowConfirmPassword(!showConfirmPassword)
                               }
+                              sx={{
+                                color: (theme) => theme.palette.mode === 'dark'
+                                  ? '#90caf9'
+                                  : 'primary.main'
+                              }}
                               edge="end"
-                              sx={{ color: "primary.main" }}
                             >
                               {showConfirmPassword ? (
                                 <VisibilityOff />
@@ -1029,15 +1127,42 @@ const LoginPage = () => {
 
       {/* Forgot Password Inline Form (Testing) */}
       {showForgotPassword && (
-        <Card sx={{ mt: 2 }}>
+        <Card sx={{
+          mt: 2,
+          backgroundColor: (theme) =>
+            theme.palette.mode === 'dark'
+              ? "rgba(33, 33, 33, 0.95)"
+              : "rgba(255, 255, 255, 0.95)",
+          boxShadow: (theme) =>
+            theme.palette.mode === 'dark'
+              ? "0 8px 32px rgba(0,0,0,0.3)"
+              : "0 8px 32px rgba(0,0,0,0.1)",
+        }}>
           <CardContent>
-            <Typography variant="h6" sx={{ mb: 2 }}>Reveal Password</Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+            <Typography variant="h6" sx={{ mb: 2, color: "text.primary" }}>Reveal Password</Typography>
+            <Typography variant="body2" sx={{
+              mb: 3,
+              color: "text.primary",
+              opacity: (theme) => theme.palette.mode === 'dark' ? 0.9 : 0.7
+            }}>
               Enter your username and we'll reveal your password.
             </Typography>
 
             {successMessage && (
-              <Alert severity="success" sx={{ mb: 2 }}>
+              <Alert
+                severity="success"
+                sx={{
+                  mb: 2,
+                  backgroundColor: (theme) =>
+                    theme.palette.mode === 'dark' ? '#2e7d32' : '#e8f5e8',
+                  color: (theme) =>
+                    theme.palette.mode === 'dark' ? '#ffffff' : '#2e7d32',
+                  '& .MuiAlert-icon': {
+                    color: (theme) =>
+                      theme.palette.mode === 'dark' ? '#81c784' : '#4caf50'
+                  }
+                }}
+              >
                 {successMessage}
               </Alert>
             )}
@@ -1063,7 +1188,17 @@ const LoginPage = () => {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <PersonIcon color={getForgotPasswordIconColor(forgotPasswordForm.username)} />
+                    <PersonIcon
+                      sx={{
+                        color: forgotPasswordAvailability[forgotPasswordForm.username] === false
+                          ? 'error.main'
+                          : forgotPasswordAvailability[forgotPasswordForm.username] === true
+                            ? 'success.main'
+                            : (theme) => theme.palette.mode === 'dark'
+                              ? 'rgba(255, 255, 255, 0.7)'
+                              : 'action.active'
+                      }}
+                    />
                   </InputAdornment>
                 ),
               }}
@@ -1086,9 +1221,24 @@ const LoginPage = () => {
             />
 
             {revealedPassword && (
-              <Alert severity="success" sx={{ mb: 2 }}>
+              <Alert
+                severity="success"
+                sx={{
+                  mb: 2,
+                  backgroundColor: (theme) =>
+                    theme.palette.mode === 'dark' ? '#2e7d32' : '#e8f5e8',
+                  color: (theme) =>
+                    theme.palette.mode === 'dark' ? '#ffffff' : '#2e7d32',
+                  '& .MuiAlert-icon': {
+                    color: (theme) =>
+                      theme.palette.mode === 'dark' ? '#81c784' : '#4caf50'
+                  }
+                }}
+              >
                 <Box display="flex" alignItems="center" justifyContent="space-between">
-                  <Typography variant="body2" sx={{ color: 'black' }}>
+                  <Typography variant="body2" sx={{
+                    color: (theme) => theme.palette.mode === 'dark' ? '#ffffff' : '#2e7d32'
+                  }}>
                     <strong>Password:</strong> {revealedPassword}
                   </Typography>
                   <Button
@@ -1096,7 +1246,15 @@ const LoginPage = () => {
                     size="small"
                     variant="outlined"
                     onClick={handleCopyPassword}
-                    sx={{ ml: 1 }}
+                    sx={{
+                      ml: 1,
+                      borderColor: (theme) => theme.palette.mode === 'dark' ? '#81c784' : '#4caf50',
+                      color: (theme) => theme.palette.mode === 'dark' ? '#81c784' : '#4caf50',
+                      '&:hover': {
+                        borderColor: (theme) => theme.palette.mode === 'dark' ? '#66bb6a' : '#388e3c',
+                        backgroundColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(129, 199, 132, 0.1)' : 'rgba(76, 175, 80, 0.1)'
+                      }
+                    }}
                     color={copyFeedback === "Copied!" ? "success" : "primary"}
                   >
                     {copyFeedback || "Copy"}

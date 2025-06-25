@@ -1,8 +1,8 @@
-## 📚 Reading Tracker - Book Management App
+## 📚 BookTrackerDemo - Book Management App
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Repo-blue?logo=github)](https://github.com/tatoslover/Mini-Project-2)
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Netlify-brightgreen?logo=netlify)](https://reading-tracker-app.netlify.app)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Netlify-brightgreen?logo=netlify)](https://booktrackerdemo.netlify.app/booktracker-demo)
 
-Track your reading journey with progress monitoring, book discovery, and personalized statistics.
+Track your reading journey with progress monitoring, book discovery, and personalized statistics. This is a demo version showcasing the full functionality of the BookTracker application.
 
 - 📖 Powered by [Google Books API](https://developers.google.com/books) (~40M books)
 - 🎨 Built with React 19, Material-UI, React Router
@@ -195,7 +195,7 @@ Track your reading journey with progress monitoring, book discovery, and persona
 <summary>🪝 React Hooks Mastery</summary>
 
 - `useState` - Local component state management
-- `useEffect` - Side effects and lifecycle management  
+- `useEffect` - Side effects and lifecycle management
 - `useReducer` - Complex state transitions in BookContext
 - `useContext` - Global state consumption
 - `useCallback` - Performance optimization for API calls
@@ -234,7 +234,7 @@ The application includes a curated collection of 30 demo books across different 
 ### Collection Overview
 - **Total Books**: 30
 - **Wishlist**: 6 books
-- **Currently Reading**: 3 books  
+- **Currently Reading**: 3 books
 - **Finished (2025)**: 11 books
 - **Finished (2024)**: 6 books
 - **Finished (2023)**: 3 books

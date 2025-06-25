@@ -45,14 +45,20 @@ function AppContent() {
                   }}
                 >
                   <Routes>
-                    {/* Redirect root to book tracker */}
+                    {/* Redirect root to book tracker demo */}
                     <Route
                       path="/"
-                      element={<Navigate to="/book-tracker" replace />}
+                      element={<Navigate to="/booktracker-demo" replace />}
                     />
 
-                    {/* Book Tracker Routes */}
-                    <Route path="/book-tracker" element={<BookTrackerLayout />}>
+                    {/* Redirect old route to new route for backward compatibility */}
+                    <Route
+                      path="/book-tracker/*"
+                      element={<Navigate to="/booktracker-demo" replace />}
+                    />
+
+                    {/* BookTracker Demo Routes */}
+                    <Route path="/booktracker-demo" element={<BookTrackerLayout />}>
                       <Route
                         index
                         element={

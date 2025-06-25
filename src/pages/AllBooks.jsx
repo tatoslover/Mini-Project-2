@@ -360,7 +360,7 @@ const AllBooks = () => {
                 value={stats.total}
                 icon={<BookIcon sx={{ fontSize: 40 }} />}
                 color="primary.main"
-                onClick={() => navigate("/book-tracker/books")}
+                onClick={() => navigate("/booktracker-demo/books")}
               />
             </Grid>
             <Grid item xs={6} sm={3}>
@@ -369,7 +369,7 @@ const AllBooks = () => {
                 value={stats.wishlist}
                 icon={<WishlistIcon sx={{ fontSize: 40 }} />}
                 color="secondary.main"
-                onClick={() => navigate("/book-tracker/wishlist")}
+                onClick={() => navigate("/booktracker-demo/wishlist")}
               />
             </Grid>
             <Grid item xs={6} sm={3}>
@@ -378,7 +378,7 @@ const AllBooks = () => {
                 value={stats.currentlyReading}
                 icon={<ReadingIcon sx={{ fontSize: 40 }} />}
                 color="primary.main"
-                onClick={() => navigate("/book-tracker/currently-reading")}
+                onClick={() => navigate("/booktracker-demo/currently-reading")}
               />
             </Grid>
             <Grid item xs={6} sm={3}>
@@ -387,7 +387,7 @@ const AllBooks = () => {
                 value={stats.finished}
                 icon={<FinishedIcon sx={{ fontSize: 40 }} />}
                 color="success.main"
-                onClick={() => navigate("/book-tracker/finished")}
+                onClick={() => navigate("/booktracker-demo/finished")}
               />
             </Grid>
           </Grid>

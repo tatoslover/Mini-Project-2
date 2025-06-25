@@ -151,7 +151,7 @@ export const BookProvider = ({ children }) => {
     }
 
     // Load reading goals from localStorage (try both old and new keys for backward compatibility)
-    const savedGoals = localStorage.getItem("bookTracker_readingGoals") || localStorage.getItem("reading-tracker-goal");
+    const savedGoals = localStorage.getItem("bookTrackerDemo_readingGoals") || localStorage.getItem("reading-tracker-goal");
     if (savedGoals) {
       try {
         const parsedGoals = JSON.parse(savedGoals);
@@ -193,7 +193,7 @@ export const BookProvider = ({ children }) => {
   // Save reading goals to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem(
-      "bookTracker_readingGoals",
+      "bookTrackerDemo_readingGoals",
       JSON.stringify(state.readingGoals),
     );
   }, [state.readingGoals]);

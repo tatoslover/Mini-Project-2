@@ -61,31 +61,31 @@ const BookTrackerLayout = () => {
     {
       text: "About",
       icon: <HomeIcon />,
-      path: "/book-tracker",
+      path: "/booktracker-demo",
       count: null,
     },
     {
       text: "Library",
       icon: <AllBooksIcon />,
-      path: "/book-tracker/books",
+      path: "/booktracker-demo/books",
       count: stats.total,
     },
     {
       text: "Wishlist",
       icon: <WishlistIcon />,
-      path: "/book-tracker/wishlist",
+      path: "/booktracker-demo/wishlist",
       count: stats.wishlist,
     },
     {
       text: "Currently Reading",
       icon: <ReadingIcon />,
-      path: "/book-tracker/currently-reading",
+      path: "/booktracker-demo/currently-reading",
       count: stats.currentlyReading,
     },
     {
       text: "Finished",
       icon: <FinishedIcon />,
-      path: "/book-tracker/finished",
+      path: "/booktracker-demo/finished",
       count: stats.finished,
     },
   ];
@@ -118,7 +118,7 @@ const BookTrackerLayout = () => {
   };
 
   const isCurrentPath = (path) => {
-    if (path === "/book-tracker") {
+    if (path === "/booktracker-demo") {
       return location.pathname === path;
     }
     return location.pathname.startsWith(path);
@@ -168,7 +168,7 @@ const BookTrackerLayout = () => {
                 fontSize: { xs: "1.1rem", sm: "1.2rem", md: "1.25rem" },
               }}
             >
-              BookTracker
+              BookTrackerDemo
             </Typography>
           </Box>
 

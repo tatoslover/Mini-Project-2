@@ -85,7 +85,7 @@ const BookTrackerHome = () => {
             fontSize: { xs: "2.5rem", sm: "3rem", md: "3.5rem" },
           }}
         >
-          BookTracker
+          BookTrackerDemo
         </Typography>
         <Typography
           variant="h5"
@@ -94,30 +94,81 @@ const BookTrackerHome = () => {
         >
           Track your personal reading journey through advanced book management
         </Typography>
+        <Typography
+          variant="h6"
+          color="text.primary"
+          sx={{ mb: 2, fontWeight: 600, textAlign: "center" }}
+        >
+          Featured Technologies
+        </Typography>
         <Box
           sx={{
-            mt: 4,
+            mt: 2,
             display: "flex",
-            gap: 1,
+            gap: 2,
             justifyContent: "center",
             flexWrap: "wrap",
           }}
         >
           <Chip
             label="React"
-            sx={{ backgroundColor: "#61dafb", color: "white" }}
+            sx={{
+              backgroundColor: "#FF6B6B",
+              color: "#000 !important",
+              fontWeight: "bold",
+              "&:hover": { backgroundColor: "#FF5252" },
+              "& .MuiChip-label": { color: "#000 !important" }
+            }}
           />
           <Chip
             label="Material-UI"
-            sx={{ backgroundColor: "#0081cb", color: "white" }}
+            sx={{
+              backgroundColor: "#4ECDC4",
+              color: "#000 !important",
+              fontWeight: "bold",
+              "&:hover": { backgroundColor: "#26A69A" },
+              "& .MuiChip-label": { color: "#000 !important" }
+            }}
           />
           <Chip
-            label="Local Storage"
-            sx={{ backgroundColor: "#1976d2", color: "white" }}
+            label="React Router"
+            sx={{
+              backgroundColor: "#FFE66D",
+              color: "#000 !important",
+              fontWeight: "bold",
+              "&:hover": { backgroundColor: "#FFCC02" },
+              "& .MuiChip-label": { color: "#000 !important" }
+            }}
           />
           <Chip
             label="Responsive Design"
-            sx={{ backgroundColor: "#28a745", color: "white" }}
+            sx={{
+              backgroundColor: "#A8E6CF",
+              color: "#000 !important",
+              fontWeight: "bold",
+              "&:hover": { backgroundColor: "#81C784" },
+              "& .MuiChip-label": { color: "#000 !important" }
+            }}
+          />
+          <Chip
+            label="Vite"
+            sx={{
+              backgroundColor: "#B19CD9",
+              color: "#000 !important",
+              fontWeight: "bold",
+              "&:hover": { backgroundColor: "#9575CD" },
+              "& .MuiChip-label": { color: "#000 !important" }
+            }}
+          />
+          <Chip
+            label="Local Storage"
+            sx={{
+              backgroundColor: "#FF9F43",
+              color: "#000 !important",
+              fontWeight: "bold",
+              "&:hover": { backgroundColor: "#FF8F00" },
+              "& .MuiChip-label": { color: "#000 !important" }
+            }}
           />
         </Box>
       </Box>

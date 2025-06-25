@@ -3,21 +3,21 @@ export const setupDemoUser = () => {
   const demoUser = {
     id: "demo-user-123",
     name: "Demo User",
-    email: "demo@booktracker.com",
+    email: "demo@booktrackerdemo.com",
     password: "demo123",
     createdAt: "2024-01-01T00:00:00.000Z",
     avatar: "https://ui-avatars.com/api/?name=Demo+User&background=667eea&color=fff",
   };
 
   // Check if users array exists, if not create it
-  const existingUsers = JSON.parse(localStorage.getItem("bookTracker_users") || "[]");
+  const existingUsers = JSON.parse(localStorage.getItem("bookTrackerDemo_users") || "[]");
 
   // Check if demo user already exists
   const demoExists = existingUsers.some(user => user.email === demoUser.email);
 
   if (!demoExists) {
     existingUsers.push(demoUser);
-    localStorage.setItem("bookTracker_users", JSON.stringify(existingUsers));
+    localStorage.setItem("bookTrackerDemo_users", JSON.stringify(existingUsers));
   }
 };
 
@@ -128,12 +128,12 @@ export const setupDemoBooks = () => {
   ];
 
   // Check if demo books already exist
-  const existingBooks = JSON.parse(localStorage.getItem("bookTracker_books") || "[]");
+  const existingBooks = JSON.parse(localStorage.getItem("bookTrackerDemo_books") || "[]");
   const demoExists = existingBooks.some(book => book.id && book.id.startsWith("demo-book"));
 
   if (!demoExists) {
     const allBooks = [...existingBooks, ...demoBooks];
-    localStorage.setItem("bookTracker_books", JSON.stringify(allBooks));
+    localStorage.setItem("bookTrackerDemo_books", JSON.stringify(allBooks));
   }
 };
 
@@ -156,10 +156,10 @@ export const setupDemoReadingGoal = () => {
   };
 
   // Check if reading goals already exist
-  const existingGoals = JSON.parse(localStorage.getItem("bookTracker_readingGoals") || "{}");
+  const existingGoals = JSON.parse(localStorage.getItem("bookTrackerDemo_readingGoals") || "{}");
 
   if (Object.keys(existingGoals).length === 0) {
-    localStorage.setItem("bookTracker_readingGoals", JSON.stringify(demoGoals));
+    localStorage.setItem("bookTrackerDemo_readingGoals", JSON.stringify(demoGoals));
   }
 };
 

@@ -96,7 +96,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const loadUser = () => {
       try {
-        const savedUser = localStorage.getItem("bookTracker_user");
+        const savedUser = localStorage.getItem("bookTrackerDemo_user");
         if (savedUser) {
           const user = JSON.parse(savedUser);
           dispatch({ type: AUTH_ACTIONS.SET_USER, payload: user });
@@ -122,7 +122,7 @@ export const AuthProvider = ({ children }) => {
           avatar: "https://ui-avatars.com/api/?name=Demo+User&background=667eea&color=fff",
         };
 
-        localStorage.setItem("bookTracker_users", JSON.stringify([demoUser]));
+        localStorage.setItem("bookTrackerDemo_users", JSON.stringify([demoUser]));
         console.log("Users cleaned up, only demo user remains");
       } catch (error) {
         console.error("Error cleaning up users:", error);
@@ -743,7 +743,7 @@ export const AuthProvider = ({ children }) => {
         }
 
         // Create demo reading goals only if none exist
-        const existingGoals = localStorage.getItem("bookTracker_readingGoals");
+        const existingGoals = localStorage.getItem("bookTrackerDemo_readingGoals");
         if (!existingGoals) {
           const currentYear = new Date().getFullYear();
           const demoGoals = {
@@ -756,11 +756,11 @@ export const AuthProvider = ({ children }) => {
               isActive: true,
             },
           };
-          localStorage.setItem("bookTracker_readingGoals", JSON.stringify(demoGoals));
+          localStorage.setItem("bookTrackerDemo_readingGoals", JSON.stringify(demoGoals));
         }
 
         // Save demo user to localStorage
-        localStorage.setItem("bookTracker_user", JSON.stringify(demoUser));
+        localStorage.setItem("bookTrackerDemo_user", JSON.stringify(demoUser));
 
         dispatch({ type: AUTH_ACTIONS.SET_USER, payload: demoUser });
         return { success: true };
@@ -768,7 +768,7 @@ export const AuthProvider = ({ children }) => {
 
       // Get users from localStorage
       const users = JSON.parse(
-        localStorage.getItem("bookTracker_users") || "[]",
+        localStorage.getItem("bookTrackerDemo_users") || "[]",
       );
 
       // Check if username exists first - filter out invalid users
@@ -799,7 +799,7 @@ export const AuthProvider = ({ children }) => {
 
       // Save user to localStorage
       localStorage.setItem(
-        "bookTracker_user",
+        "bookTrackerDemo_user",
         JSON.stringify(userWithoutPassword),
       );
 
@@ -826,7 +826,7 @@ export const AuthProvider = ({ children }) => {
 
       // Get existing users
       const users = JSON.parse(
-        localStorage.getItem("bookTracker_users") || "[]",
+        localStorage.getItem("bookTrackerDemo_users") || "[]",
       );
       console.log("Existing users:", users);
 
@@ -868,7 +868,7 @@ export const AuthProvider = ({ children }) => {
 
       // Save user to users array
       users.push(newUser);
-      localStorage.setItem("bookTracker_users", JSON.stringify(users));
+      localStorage.setItem("bookTrackerDemo_users", JSON.stringify(users));
       console.log("Saved users to localStorage");
 
       // Remove password before storing in state
@@ -876,7 +876,7 @@ export const AuthProvider = ({ children }) => {
 
       // Save current user
       localStorage.setItem(
-        "bookTracker_user",
+        "bookTrackerDemo_user",
         JSON.stringify(userWithoutPassword),
       );
       console.log("Saved current user to localStorage");
@@ -901,7 +901,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem("reading-tracker-books");
       localStorage.removeItem("reading-tracker-goal");
     }
-    localStorage.removeItem("bookTracker_user");
+    localStorage.removeItem("bookTrackerDemo_user");
     dispatch({ type: AUTH_ACTIONS.LOGOUT });
   };
 
@@ -920,7 +920,7 @@ export const AuthProvider = ({ children }) => {
 
       // Get existing users
       const users = JSON.parse(
-        localStorage.getItem("bookTracker_users") || "[]",
+        localStorage.getItem("bookTrackerDemo_users") || "[]",
       );
 
       // Check if user exists - filter out invalid users first
@@ -964,7 +964,7 @@ export const AuthProvider = ({ children }) => {
 
       // Get stored reset token
       const resetData = JSON.parse(
-        localStorage.getItem("bookTracker_resetToken") || "null"
+        localStorage.getItem("bookTrackerDemo_resetToken") || "null"
       );
 
       if (!resetData || resetData.token !== token) {
@@ -977,7 +977,7 @@ export const AuthProvider = ({ children }) => {
 
       // Check if token is expired
       if (Date.now() > resetData.expires) {
-        localStorage.removeItem("bookTracker_resetToken");
+        localStorage.removeItem("bookTrackerDemo_resetToken");
         dispatch({ type: AUTH_ACTIONS.CLEAR_RESET_TOKEN });
         dispatch({
           type: AUTH_ACTIONS.SET_ERROR,
@@ -988,7 +988,7 @@ export const AuthProvider = ({ children }) => {
 
       // Get users and update password
       const users = JSON.parse(
-        localStorage.getItem("bookTracker_users") || "[]",
+        localStorage.getItem("bookTrackerDemo_users") || "[]",
       );
 
       // Filter out invalid users first
@@ -1010,10 +1010,10 @@ export const AuthProvider = ({ children }) => {
         (u) => u && u.username && u.username.toLowerCase() === resetData.username
       );
       users[originalUserIndex].password = newPassword;
-      localStorage.setItem("bookTracker_users", JSON.stringify(users));
+      localStorage.setItem("bookTrackerDemo_users", JSON.stringify(users));
 
       // Clear reset token
-      localStorage.removeItem("bookTracker_resetToken");
+      localStorage.removeItem("bookTrackerDemo_resetToken");
       dispatch({ type: AUTH_ACTIONS.CLEAR_RESET_TOKEN });
 
       dispatch({ type: AUTH_ACTIONS.SET_ERROR, payload: null });
@@ -1035,16 +1035,16 @@ export const AuthProvider = ({ children }) => {
       const updatedUser = { ...state.user, ...updates };
 
       // Update in localStorage
-      localStorage.setItem("bookTracker_user", JSON.stringify(updatedUser));
+      localStorage.setItem("bookTrackerDemo_user", JSON.stringify(updatedUser));
 
       // Update in users array
       const users = JSON.parse(
-        localStorage.getItem("bookTracker_users") || "[]",
+        localStorage.getItem("bookTrackerDemo_users") || "[]",
       );
       const userIndex = users.findIndex((u) => u.id === state.user.id);
       if (userIndex !== -1) {
         users[userIndex] = { ...users[userIndex], ...updates };
-        localStorage.setItem("bookTracker_users", JSON.stringify(users));
+        localStorage.setItem("bookTrackerDemo_users", JSON.stringify(users));
       }
 
       dispatch({ type: AUTH_ACTIONS.SET_USER, payload: updatedUser });

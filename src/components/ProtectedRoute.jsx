@@ -23,7 +23,7 @@ const ProtectedRoute = ({ children }) => {
       >
         <AnimatedBookIcon size={60} color="white" speed="normal" />
         <Typography variant="h6" sx={{ mt: 2, color: "white" }}>
-          Loading BookTracker...
+          Loading BookTrackerDemo...
         </Typography>
       </Box>
     );
