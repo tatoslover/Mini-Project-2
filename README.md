@@ -1,6 +1,6 @@
 ## 📚 BookTrackerDemo - Book Management App
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Repo-blue?logo=github)](https://github.com/tatoslover/Mini-Project-2)
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Netlify-brightgreen?logo=netlify)](https://booktrackerdemo.netlify.app/booktracker-demo)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Netlify-brightgreen?logo=netlify)](https://booktrackerdemo.netlify.app)
 
 Track your reading journey with progress monitoring, book discovery, and personalized statistics. This is a demo version showcasing the full functionality of the BookTracker application.
 
