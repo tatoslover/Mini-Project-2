@@ -1,7 +1,13 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { ThemeProvider, CssBaseline } from "@mui/material";
+import React, { useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { ThemeProvider, CssBaseline, Box } from "@mui/material";
 import { BookProvider } from "./contexts/BookContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import { CustomThemeProvider, useTheme } from "./contexts/ThemeContext";
 import BookTrackerLayout from "./components/BookTrackerLayout";
 import BookTrackerHome from "./pages/BookTrackerHome";
@@ -9,33 +15,92 @@ import AllBooks from "./pages/AllBooks";
 import WishlistPage from "./pages/WishlistPage";
 import CurrentlyReadingPage from "./pages/CurrentlyReadingPage";
 import FinishedPage from "./pages/FinishedPage";
+import ProtectedRoute from "./components/ProtectedRoute";
+import ErrorBoundary from "./components/ErrorBoundary";
+import { setupDemoData } from "./utils/setupDemo";
 import "./App.css";
 
 function AppContent() {
   const { theme } = useTheme();
 
+  // Setup demo data on app load
+  useEffect(() => {
+    setupDemoData();
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <BookProvider>
-        <Router>
-          <div className="App">
-            <Routes>
-              {/* Redirect root to book tracker */}
-              <Route path="/" element={<Navigate to="/book-tracker" replace />} />
+      <ErrorBoundary>
+        <AuthProvider>
+          <BookProvider>
+            <ProtectedRoute>
+              <Router>
+                <Box
+                  className="App"
+                  sx={{
+                    minHeight: "100vh",
+                    backgroundColor: "background.default",
+                    transition: "all 0.3s ease",
+                  }}
+                >
+                  <Routes>
+                    {/* Redirect root to book tracker */}
+                    <Route
+                      path="/"
+                      element={<Navigate to="/book-tracker" replace />}
+                    />
 
-              {/* Book Tracker Routes */}
-              <Route path="/book-tracker" element={<BookTrackerLayout />}>
-                <Route index element={<BookTrackerHome />} />
-                <Route path="books" element={<AllBooks />} />
-                <Route path="wishlist" element={<WishlistPage />} />
-                <Route path="currently-reading" element={<CurrentlyReadingPage />} />
-                <Route path="finished" element={<FinishedPage />} />
-              </Route>
-            </Routes>
-          </div>
-        </Router>
-      </BookProvider>
+                    {/* Book Tracker Routes */}
+                    <Route path="/book-tracker" element={<BookTrackerLayout />}>
+                      <Route
+                        index
+                        element={
+                          <ErrorBoundary compact>
+                            <BookTrackerHome />
+                          </ErrorBoundary>
+                        }
+                      />
+                      <Route
+                        path="books"
+                        element={
+                          <ErrorBoundary compact>
+                            <AllBooks />
+                          </ErrorBoundary>
+                        }
+                      />
+                      <Route
+                        path="wishlist"
+                        element={
+                          <ErrorBoundary compact>
+                            <WishlistPage />
+                          </ErrorBoundary>
+                        }
+                      />
+                      <Route
+                        path="currently-reading"
+                        element={
+                          <ErrorBoundary compact>
+                            <CurrentlyReadingPage />
+                          </ErrorBoundary>
+                        }
+                      />
+                      <Route
+                        path="finished"
+                        element={
+                          <ErrorBoundary compact>
+                            <FinishedPage />
+                          </ErrorBoundary>
+                        }
+                      />
+                    </Route>
+                  </Routes>
+                </Box>
+              </Router>
+            </ProtectedRoute>
+          </BookProvider>
+        </AuthProvider>
+      </ErrorBoundary>
     </ThemeProvider>
   );
 }

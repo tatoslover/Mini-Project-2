@@ -98,6 +98,14 @@ Track your reading journey with progress monitoring, book discovery, and persona
 - Local storage persistence with cross-tab sync
 - Book statistics and analytics calculation
 
+`contexts/AuthContext.jsx` - Authentication & User Management
+- User authentication with demo login system
+- Forgot password functionality with reset codes
+- Session persistence and state management
+- User profile data and reading statistics
+- Demo book collection initialization
+- Cross-component authentication state
+
 `contexts/ThemeContext.jsx` - Theme Management System
 - Light/Dark mode switching with system preference detection
 - Custom Material-UI theme configurations
@@ -216,3 +224,69 @@ Track your reading journey with progress monitoring, book discovery, and persona
 ---
 
 The application demonstrates production-ready React development with modern patterns, showcasing a comprehensive book management system that combines external API integration, advanced state management, and professional UI/UX design through an engaging reading tracker platform.
+
+---
+
+## 📚 Demo Book Collection
+
+The application includes a curated collection of 30 demo books across different categories, featuring a mix of classic literature, contemporary fiction, non-fiction, and popular titles to showcase the full functionality of the reading tracker.
+
+### Collection Overview
+- **Total Books**: 30
+- **Wishlist**: 6 books
+- **Currently Reading**: 3 books  
+- **Finished (2025)**: 11 books
+- **Finished (2024)**: 6 books
+- **Finished (2023)**: 3 books
+- **Current Year Finished**: 1 book
+
+### Featured Books with Cover Images
+The collection includes several books with embedded cover images from reliable CDN sources:
+
+**Classic Literature:**
+- *Moby Dick* by Herman Melville (1851)
+- *The Great Gatsby* by F. Scott Fitzgerald
+- *1984* by George Orwell
+- *The Catcher in the Rye* by J.D. Salinger
+
+**Fantasy & Science Fiction:**
+- *The Lord of the Rings* trilogy (The Fellowship, The Two Towers, The Return of the King)
+- *Dune* by Frank Herbert
+- *The Hitchhiker's Guide to the Galaxy* by Douglas Adams
+- *Good Omens* by Terry Pratchett & Neil Gaiman
+
+**Contemporary Fiction:**
+- *Red, White & Royal Blue* by Casey McQuiston
+- *Call Me By Your Name* by André Aciman
+- *Beach Read* by Emily Henry
+
+**Romance & Historical Fiction:**
+- *The Duke and I* by Julia Quinn
+- *Pride and Prejudice* by Jane Austen
+- *Outlander* by Diana Gabaldon
+
+**Non-Fiction & Memoir:**
+- *Me Talk Pretty One Day* by David Sedaris
+- *The Fear Bubble* by Ant Middleton
+- *The Liar* by Stephen Fry
+
+### Book Organization Features
+
+**Lord of the Rings Reading Journey:**
+The collection showcases a complete LOTR reading progression:
+- *The Hobbit* (2023 - Foundation)
+- *The Fellowship of the Ring* (2024 - Beginning the quest)
+- *The Two Towers* (2025 - Continuing the journey)
+- *The Return of the King* (Current - Epic conclusion)
+
+**Reading Status Distribution:**
+- **Wishlist**: Includes classics like *Moby Dick*, *Catch-22*, and contemporary hits
+- **Currently Reading**: Active progress tracking on *Good Omens* (45%), *Beach Read* (40%), and *The Importance of Being Earnest* (60%)
+- **Finished Books**: Organized by year with ratings and reviews, showcasing reading habits over time
+
+**Cover Image Implementation:**
+- High-quality cover images from reliable CDN sources
+- Fallback to default placeholder for books without covers
+- Optimized loading and responsive display across devices
+
+This diverse collection demonstrates the app's capability to handle various genres, track reading progress over multiple years, and provide rich visual representation of your personal library.

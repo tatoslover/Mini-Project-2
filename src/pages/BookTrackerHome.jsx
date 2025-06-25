@@ -8,7 +8,6 @@ import {
   Box,
   Button,
   Paper,
-  LinearProgress,
   Avatar,
   Chip,
   List,
@@ -27,10 +26,6 @@ import {
   IconButton,
 } from "@mui/material";
 import {
-  Book as BookIcon,
-  BookmarkBorder as WishlistIcon,
-  MenuBook as ReadingIcon,
-  CheckCircle as FinishedIcon,
   TrendingUp as TrendingIcon,
   Add as AddIcon,
   Info as InfoIcon,
@@ -45,13 +40,10 @@ import {
   ExpandMore as ExpandMoreIcon,
   ExpandLess as ExpandLessIcon,
 } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
-import { useBooks } from "../contexts/BookContext";
 import BookForm from "../components/BookForm";
+import ReadingGoal from "../components/ReadingGoal";
 
 const BookTrackerHome = () => {
-  const navigate = useNavigate();
-  const { books, getBookStats, getBooksByStatus, BOOK_STATUS } = useBooks();
   const [addBookOpen, setAddBookOpen] = useState(false);
   const [expandedSections, setExpandedSections] = useState({
     overview: false,
@@ -62,27 +54,6 @@ const BookTrackerHome = () => {
     usage: false,
     qa: false,
   });
-
-  const stats = getBookStats();
-  const currentlyReading = getBooksByStatus(BOOK_STATUS.CURRENTLY_READING);
-
-  // Calculate reading progress for currently reading books
-  const avgProgress =
-    currentlyReading.length > 0
-      ? currentlyReading.reduce((sum, book) => sum + (book.progress || 0), 0) /
-        currentlyReading.length
-      : 0;
-
-  // Calculate reading goal progress (assuming 12 books per year)
-  const yearlyGoal = 12;
-  const finishedThisYear = books.filter((book) => {
-    if (!book.dateFinished) return false;
-    const finishedDate = new Date(book.dateFinished);
-    const currentYear = new Date().getFullYear();
-    return finishedDate.getFullYear() === currentYear;
-  }).length;
-
-  const goalProgress = (finishedThisYear / yearlyGoal) * 100;
 
   const handleAddBook = () => {
     setAddBookOpen(true);
@@ -99,38 +70,6 @@ const BookTrackerHome = () => {
     }));
   };
 
-  const StatCard = ({ title, value, icon, color, subtitle, onClick }) => (
-    <Card
-      sx={{
-        height: "100%",
-        cursor: onClick ? "pointer" : "default",
-        "&:hover": onClick ? { boxShadow: 3 } : {},
-        transition: "all 0.3s ease",
-        borderRadius: "15px",
-        overflow: "hidden",
-        background: "rgba(255, 255, 255, 0.95)",
-        backdropFilter: "blur(10px)",
-      }}
-      onClick={onClick}
-      className="card-hover-effect"
-    >
-      <CardContent sx={{ textAlign: "center", p: 3 }}>
-        <Box sx={{ color: color, mb: 2 }}>{icon}</Box>
-        <Typography variant="h3" component="div" className="stat-value">
-          {value}
-        </Typography>
-        <Typography variant="h6" sx={{ mb: 1, fontWeight: 500 }}>
-          {title}
-        </Typography>
-        {subtitle && (
-          <Typography variant="body2" color="text.secondary">
-            {subtitle}
-          </Typography>
-        )}
-      </CardContent>
-    </Card>
-  );
-
   return (
     <Box className="fade-in">
       {/* Hero Section */}
@@ -143,9 +82,10 @@ const BookTrackerHome = () => {
             mb: 3,
             fontWeight: "bold",
             textAlign: "center",
+            fontSize: { xs: "2.5rem", sm: "3rem", md: "3.5rem" },
           }}
         >
-          Personal Reading Tracker
+          BookTracker
         </Typography>
         <Typography
           variant="h5"
@@ -173,13 +113,18 @@ const BookTrackerHome = () => {
           />
           <Chip
             label="Local Storage"
-            sx={{ backgroundColor: "#ffc107", color: "black" }}
+            sx={{ backgroundColor: "#1976d2", color: "white" }}
           />
           <Chip
             label="Responsive Design"
             sx={{ backgroundColor: "#28a745", color: "white" }}
           />
         </Box>
+      </Box>
+
+      {/* Reading Goal Section */}
+      <Box sx={{ maxWidth: "1200px", mx: "auto", mb: 4 }}>
+        <ReadingGoal compact />
       </Box>
 
       <Box sx={{ maxWidth: "1200px", mx: "auto" }}>
@@ -219,70 +164,51 @@ const BookTrackerHome = () => {
           </Box>
           <Collapse in={expandedSections.overview}>
             <CardContent sx={{ p: 4 }}>
-              <Typography variant="h6" sx={{ mb: 3, fontWeight: 300 }}>
+              <Typography variant="h6" sx={{ mb: 3, fontWeight: 300, color: "text.primary" }}>
                 A comprehensive reading management application built with React,
                 showcasing personal book collections with advanced tracking and
                 progress monitoring tools.
               </Typography>
-              <Typography sx={{ mb: 4 }}>
+              <Typography sx={{ mb: 4, color: "text.primary", fontWeight: 500 }}>
                 This project demonstrates modern front-end development skills
                 including React hooks, context management, Material-UI
                 components, and responsive design principles.
               </Typography>
 
-              {/* Quick Stats Grid */}
-              <Grid container spacing={3} sx={{ mb: 4 }}>
-                <Grid item xs={6} sm={3}>
-                  <StatCard
-                    title="Total Books"
-                    value={stats.total}
-                    icon={<BookIcon sx={{ fontSize: 40 }} />}
-                    color="primary.main"
-                    onClick={() => navigate("/book-tracker/books")}
-                  />
-                </Grid>
-                <Grid item xs={6} sm={3}>
-                  <StatCard
-                    title="Wishlist"
-                    value={stats.wishlist}
-                    icon={<WishlistIcon sx={{ fontSize: 40 }} />}
-                    color="secondary.main"
-                    onClick={() => navigate("/book-tracker/wishlist")}
-                  />
-                </Grid>
-                <Grid item xs={6} sm={3}>
-                  <StatCard
-                    title="Reading"
-                    value={stats.currentlyReading}
-                    icon={<ReadingIcon sx={{ fontSize: 40 }} />}
-                    color="warning.main"
-                    onClick={() => navigate("/book-tracker/currently-reading")}
-                  />
-                </Grid>
-                <Grid item xs={6} sm={3}>
-                  <StatCard
-                    title="Finished"
-                    value={stats.finished}
-                    icon={<FinishedIcon sx={{ fontSize: 40 }} />}
-                    color="success.main"
-                    onClick={() => navigate("/book-tracker/finished")}
-                  />
-                </Grid>
-              </Grid>
-
               <Box
                 sx={{
                   p: 3,
-                  backgroundColor: "grey.50",
+                  backgroundColor: (theme) =>
+                    theme.palette.mode === 'dark' ? 'grey.800' : 'grey.100',
                   borderRadius: 2,
                   textAlign: "center",
+                  border: (theme) =>
+                    theme.palette.mode === 'dark'
+                      ? '1px solid rgba(255, 255, 255, 0.12)'
+                      : '1px solid rgba(0, 0, 0, 0.12)',
                 }}
               >
-                <Typography variant="body1" sx={{ fontStyle: "italic", mb: 2 }}>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    fontStyle: "italic",
+                    mb: 2,
+                    color: "text.primary",
+                    fontWeight: 500,
+                    fontSize: "1.1rem",
+                  }}
+                >
                   "A reader lives a thousand lives before he dies... The man who
                   never reads lives only one."
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: "text.primary",
+                    fontWeight: 600,
+                    fontSize: "0.95rem",
+                  }}
+                >
                   - George R.R. Martin
                 </Typography>
               </Box>
@@ -326,62 +252,148 @@ const BookTrackerHome = () => {
           </Box>
           <Collapse in={expandedSections.purpose}>
             <CardContent sx={{ p: 4 }}>
-              <Grid container spacing={4}>
-                <Grid item md={6} xs={12}>
-                  <Typography
-                    variant="h6"
+              <Grid container spacing={3}>
+                <Grid item md={8} xs={12}>
+                  <Card
                     sx={{
-                      mb: 2,
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 1,
+                      p: 4,
+                      height: "100%",
+                      background: "linear-gradient(135deg, #9c27b0 0%, #8e24aa 50%, #7b1fa2 100%)",
+                      color: "white",
+                      borderRadius: "20px",
+                      boxShadow: "0 8px 32px rgba(156, 39, 176, 0.3)",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "translateY(-5px)",
+                        boxShadow: "0 12px 40px rgba(156, 39, 176, 0.4)",
+                      },
                     }}
                   >
-                    <ArchIcon />
-                    Personal Goals
-                  </Typography>
-                  <List>
-                    <ListItem>
-                      <ListItemText primary="Track reading progress and habits" />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemText primary="Organize personal book collections" />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemText primary="Set and monitor reading goals" />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemText primary="Discover patterns in reading preferences" />
-                    </ListItem>
-                  </List>
+                    <Typography variant="h5" sx={{ mb: 3, fontWeight: 700, textShadow: "0 2px 4px rgba(0,0,0,0.3)" }}>
+                      📖 Personal Goals
+                    </Typography>
+                    <List sx={{ "& .MuiListItem-root": { py: 0.8 } }}>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Track reading progress and habits"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Organize personal book collections"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Set and monitor reading goals"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Discover patterns in reading preferences"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                    </List>
+                  </Card>
                 </Grid>
-                <Grid item md={6} xs={12}>
-                  <Typography
-                    variant="h6"
+                <Grid item md={8} xs={12}>
+                  <Card
                     sx={{
-                      mb: 2,
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 1,
+                      p: 4,
+                      height: "100%",
+                      background: "linear-gradient(135deg, #ab47bc 0%, #9c27b0 50%, #8e24aa 100%)",
+                      color: "white",
+                      borderRadius: "20px",
+                      boxShadow: "0 8px 32px rgba(171, 71, 188, 0.3)",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "translateY(-5px)",
+                        boxShadow: "0 12px 40px rgba(171, 71, 188, 0.4)",
+                      },
                     }}
                   >
-                    <TrendingIcon />
-                    Technical Goals
-                  </Typography>
-                  <List>
-                    <ListItem>
-                      <ListItemText primary="Demonstrate React development skills" />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemText primary="Implement context-based state management" />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemText primary="Create responsive user interfaces" />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemText primary="Apply modern design principles" />
-                    </ListItem>
-                  </List>
+                    <Typography variant="h5" sx={{ mb: 3, fontWeight: 700, textShadow: "0 2px 4px rgba(0,0,0,0.3)" }}>
+                      💻 Technical Goals
+                    </Typography>
+                    <List sx={{ "& .MuiListItem-root": { py: 0.8 } }}>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Demonstrate React development skills"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Implement context-based state management"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Create responsive user interfaces"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Apply modern design principles"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                    </List>
+                  </Card>
                 </Grid>
               </Grid>
             </CardContent>
@@ -420,77 +432,127 @@ const BookTrackerHome = () => {
           </Box>
           <Collapse in={expandedSections.data}>
             <CardContent sx={{ p: 4 }}>
-              <Typography variant="h6" sx={{ mb: 3 }}>
+              <Typography variant="h6" sx={{ mb: 3, textAlign: "center", color: "text.primary", fontWeight: 600 }}>
                 Data Storage & Structure
               </Typography>
-              <Typography sx={{ mb: 3 }}>
+              <Typography sx={{ mb: 4, textAlign: "center", color: "text.primary", fontWeight: 500 }}>
                 The application uses browser localStorage for persistent data
                 storage, ensuring your reading data is saved locally and remains
                 private.
               </Typography>
 
-              <TableContainer component={Paper} sx={{ mb: 3 }}>
-                <Table>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell>
-                        <strong>Storage Method</strong>
-                      </TableCell>
-                      <TableCell>Browser localStorage</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <strong>Data Format</strong>
-                      </TableCell>
-                      <TableCell>JSON</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <strong>Book Fields</strong>
-                      </TableCell>
-                      <TableCell>
-                        Title, Author, Genre, Status, Progress, Dates
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <strong>Status Types</strong>
-                      </TableCell>
-                      <TableCell>
-                        Wishlist, Currently Reading, Finished
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
-
-              {/* Reading Progress */}
-              <Box sx={{ mb: 3 }}>
-                <Typography variant="h6" sx={{ mb: 2 }}>
-                  Current Reading Progress
-                </Typography>
-                <Box sx={{ mb: 2 }}>
-                  <Typography variant="body2" color="text.secondary">
-                    Average Progress: {Math.round(avgProgress)}%
-                  </Typography>
-                  <LinearProgress
-                    variant="determinate"
-                    value={avgProgress}
-                    sx={{ height: 8, borderRadius: 4 }}
-                  />
-                </Box>
-                <Box>
-                  <Typography variant="body2" color="text.secondary">
-                    Yearly Goal: {finishedThisYear}/{yearlyGoal} books
-                  </Typography>
-                  <LinearProgress
-                    variant="determinate"
-                    value={Math.min(goalProgress, 100)}
-                    sx={{ height: 8, borderRadius: 4 }}
-                    color={goalProgress >= 100 ? "success" : "primary"}
-                  />
-                </Box>
-              </Box>
+              <Grid container spacing={3}>
+                <Grid item md={8} xs={12}>
+                  <Card
+                    sx={{
+                      p: 4,
+                      height: "100%",
+                      background: "linear-gradient(135deg, #ba68c8 0%, #ab47bc 50%, #9c27b0 100%)",
+                      color: "white",
+                      borderRadius: "20px",
+                      boxShadow: "0 8px 32px rgba(186, 104, 200, 0.3)",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "translateY(-5px)",
+                        boxShadow: "0 12px 40px rgba(186, 104, 200, 0.4)",
+                      },
+                    }}
+                  >
+                    <Typography variant="h5" sx={{ mb: 3, fontWeight: 700, textShadow: "0 2px 4px rgba(0,0,0,0.3)" }}>
+                      🗄️ Storage Details
+                    </Typography>
+                    <List sx={{ "& .MuiListItem-root": { py: 0.8 } }}>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Storage Method"
+                          secondary="Browser localStorage"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                          secondaryTypographyProps={{
+                            sx: { color: "rgba(255,255,255,0.8)", fontSize: "1rem" },
+                          }}
+                        />
+                      </ListItem>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Data Format"
+                          secondary="JSON"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                          secondaryTypographyProps={{
+                            sx: { color: "rgba(255,255,255,0.8)", fontSize: "1rem" },
+                          }}
+                        />
+                      </ListItem>
+                    </List>
+                  </Card>
+                </Grid>
+                <Grid item md={8} xs={12}>
+                  <Card
+                    sx={{
+                      p: 4,
+                      height: "100%",
+                      background: "linear-gradient(135deg, #6a1b9a 0%, #7b1fa2 50%, #4a148c 100%)",
+                      color: "white",
+                      borderRadius: "20px",
+                      boxShadow: "0 8px 32px rgba(106, 27, 154, 0.3)",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "translateY(-5px)",
+                        boxShadow: "0 12px 40px rgba(106, 27, 154, 0.4)",
+                      },
+                    }}
+                  >
+                    <Typography variant="h5" sx={{ mb: 3, fontWeight: 700, textShadow: "0 2px 4px rgba(0,0,0,0.3)" }}>
+                      📋 Data Structure
+                    </Typography>
+                    <List sx={{ "& .MuiListItem-root": { py: 0.8 } }}>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Book Fields"
+                          secondary="Title, Author, Genre, Status, Progress, Dates"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                          secondaryTypographyProps={{
+                            sx: { color: "rgba(255,255,255,0.8)", fontSize: "1rem" },
+                          }}
+                        />
+                      </ListItem>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Status Types"
+                          secondary="Wishlist, Currently Reading, Finished"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                          secondaryTypographyProps={{
+                            sx: { color: "rgba(255,255,255,0.8)", fontSize: "1rem" },
+                          }}
+                        />
+                      </ListItem>
+                    </List>
+                  </Card>
+                </Grid>
+              </Grid>
             </CardContent>
           </Collapse>
         </Card>
@@ -535,24 +597,58 @@ const BookTrackerHome = () => {
                 <Grid item md={6} xs={12}>
                   <Card
                     sx={{
-                      p: 3,
+                      p: 4,
                       height: "100%",
-                      backgroundColor: "primary.light",
+                      background: "linear-gradient(135deg, #9c27b0 0%, #8e24aa 50%, #7b1fa2 100%)",
                       color: "white",
+                      borderRadius: "20px",
+                      boxShadow: "0 8px 32px rgba(156, 39, 176, 0.3)",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "translateY(-5px)",
+                        boxShadow: "0 12px 40px rgba(156, 39, 176, 0.4)",
+                      },
                     }}
                   >
-                    <Typography variant="h6" sx={{ mb: 2 }}>
+                    <Typography variant="h5" sx={{ mb: 3, fontWeight: 700, textShadow: "0 2px 4px rgba(0,0,0,0.3)" }}>
                       📚 Book Management
                     </Typography>
-                    <List>
-                      <ListItem sx={{ py: 0.5 }}>
-                        <ListItemText primary="Add, edit, and delete books" />
+                    <List sx={{ "& .MuiListItem-root": { py: 0.8 } }}>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Add, edit, and delete books"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
                       </ListItem>
-                      <ListItem sx={{ py: 0.5 }}>
-                        <ListItemText primary="Categorize by reading status" />
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Categorize by reading status"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
                       </ListItem>
-                      <ListItem sx={{ py: 0.5 }}>
-                        <ListItemText primary="Track reading progress" />
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Track reading progress"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
                       </ListItem>
                     </List>
                   </Card>
@@ -560,24 +656,58 @@ const BookTrackerHome = () => {
                 <Grid item md={6} xs={12}>
                   <Card
                     sx={{
-                      p: 3,
+                      p: 4,
                       height: "100%",
-                      backgroundColor: "secondary.light",
+                      background: "linear-gradient(135deg, #ab47bc 0%, #9c27b0 50%, #8e24aa 100%)",
                       color: "white",
+                      borderRadius: "20px",
+                      boxShadow: "0 8px 32px rgba(171, 71, 188, 0.3)",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "translateY(-5px)",
+                        boxShadow: "0 12px 40px rgba(171, 71, 188, 0.4)",
+                      },
                     }}
                   >
-                    <Typography variant="h6" sx={{ mb: 2 }}>
+                    <Typography variant="h5" sx={{ mb: 3, fontWeight: 700, textShadow: "0 2px 4px rgba(0,0,0,0.3)" }}>
                       📊 Analytics
                     </Typography>
-                    <List>
-                      <ListItem sx={{ py: 0.5 }}>
-                        <ListItemText primary="Reading statistics overview" />
+                    <List sx={{ "& .MuiListItem-root": { py: 0.8 } }}>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Reading statistics overview"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
                       </ListItem>
-                      <ListItem sx={{ py: 0.5 }}>
-                        <ListItemText primary="Progress tracking" />
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Progress tracking"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
                       </ListItem>
-                      <ListItem sx={{ py: 0.5 }}>
-                        <ListItemText primary="Goal monitoring" />
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Goal monitoring"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
                       </ListItem>
                     </List>
                   </Card>
@@ -585,24 +715,58 @@ const BookTrackerHome = () => {
                 <Grid item md={6} xs={12}>
                   <Card
                     sx={{
-                      p: 3,
+                      p: 4,
                       height: "100%",
-                      backgroundColor: "success.light",
+                      background: "linear-gradient(135deg, #ba68c8 0%, #ab47bc 50%, #9c27b0 100%)",
                       color: "white",
+                      borderRadius: "20px",
+                      boxShadow: "0 8px 32px rgba(186, 104, 200, 0.3)",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "translateY(-5px)",
+                        boxShadow: "0 12px 40px rgba(186, 104, 200, 0.4)",
+                      },
                     }}
                   >
-                    <Typography variant="h6" sx={{ mb: 2 }}>
+                    <Typography variant="h5" sx={{ mb: 3, fontWeight: 700, textShadow: "0 2px 4px rgba(0,0,0,0.3)" }}>
                       🎨 User Experience
                     </Typography>
-                    <List>
-                      <ListItem sx={{ py: 0.5 }}>
-                        <ListItemText primary="Dark/Light theme toggle" />
+                    <List sx={{ "& .MuiListItem-root": { py: 0.8 } }}>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Dark/Light theme toggle"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
                       </ListItem>
-                      <ListItem sx={{ py: 0.5 }}>
-                        <ListItemText primary="Responsive design" />
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Responsive design"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
                       </ListItem>
-                      <ListItem sx={{ py: 0.5 }}>
-                        <ListItemText primary="Smooth animations" />
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Smooth animations"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
                       </ListItem>
                     </List>
                   </Card>
@@ -610,24 +774,58 @@ const BookTrackerHome = () => {
                 <Grid item md={6} xs={12}>
                   <Card
                     sx={{
-                      p: 3,
+                      p: 4,
                       height: "100%",
-                      backgroundColor: "warning.light",
+                      background: "linear-gradient(135deg, #6a1b9a 0%, #7b1fa2 50%, #4a148c 100%)",
                       color: "white",
+                      borderRadius: "20px",
+                      boxShadow: "0 8px 32px rgba(106, 27, 154, 0.3)",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "translateY(-5px)",
+                        boxShadow: "0 12px 40px rgba(106, 27, 154, 0.4)",
+                      },
                     }}
                   >
-                    <Typography variant="h6" sx={{ mb: 2 }}>
+                    <Typography variant="h5" sx={{ mb: 3, fontWeight: 700, textShadow: "0 2px 4px rgba(0,0,0,0.3)" }}>
                       💾 Data Persistence
                     </Typography>
-                    <List>
-                      <ListItem sx={{ py: 0.5 }}>
-                        <ListItemText primary="Local storage integration" />
+                    <List sx={{ "& .MuiListItem-root": { py: 0.8 } }}>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Local storage integration"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
                       </ListItem>
-                      <ListItem sx={{ py: 0.5 }}>
-                        <ListItemText primary="Automatic data saving" />
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Automatic data saving"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
                       </ListItem>
-                      <ListItem sx={{ py: 0.5 }}>
-                        <ListItemText primary="Import/Export capabilities" />
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Import/Export capabilities"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
                       </ListItem>
                     </List>
                   </Card>
@@ -673,83 +871,209 @@ const BookTrackerHome = () => {
           </Box>
           <Collapse in={expandedSections.technical}>
             <CardContent sx={{ p: 4 }}>
-              <Box sx={{ mb: 4 }}>
-                <Typography variant="h6" sx={{ mb: 3, fontWeight: "bold" }}>
-                  Architecture & Design Patterns
-                </Typography>
-                <List>
-                  <ListItem>
-                    <ListItemText
-                      primary="Context API for State Management"
-                      secondary="Centralized book data management using React Context"
-                    />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText
-                      primary="Component-Based Architecture"
-                      secondary="Modular, reusable components following React best practices"
-                    />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText
-                      primary="Responsive Design"
-                      secondary="Mobile-first approach with Material-UI breakpoints"
-                    />
-                  </ListItem>
-                </List>
-              </Box>
-
-              <Box sx={{ mb: 4 }}>
-                <Typography variant="h6" sx={{ mb: 3, fontWeight: "bold" }}>
-                  Technology Stack
-                </Typography>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <Typography
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", mb: 1 }}
-                    >
-                      Frontend
+              <Grid container spacing={3} sx={{ mb: 4 }}>
+                <Grid item md={8} xs={12}>
+                  <Card
+                    sx={{
+                      p: 4,
+                      height: "100%",
+                      background: "linear-gradient(135deg, #9c27b0 0%, #8e24aa 50%, #7b1fa2 100%)",
+                      color: "white",
+                      borderRadius: "20px",
+                      boxShadow: "0 8px 32px rgba(156, 39, 176, 0.3)",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "translateY(-5px)",
+                        boxShadow: "0 12px 40px rgba(156, 39, 176, 0.4)",
+                      },
+                    }}
+                  >
+                    <Typography variant="h5" sx={{ mb: 3, fontWeight: 700, textShadow: "0 2px 4px rgba(0,0,0,0.3)" }}>
+                      🏗️ Architecture
                     </Typography>
-                    <List dense>
-                      <ListItem>
-                        <ListItemText primary="React 18+" />
+                    <List sx={{ "& .MuiListItem-root": { py: 0.8 } }}>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Context API for State Management"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
                       </ListItem>
-                      <ListItem>
-                        <ListItemText primary="Material-UI v5" />
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Component-Based Architecture"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
                       </ListItem>
-                      <ListItem>
-                        <ListItemText primary="React Router v6" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText primary="JavaScript ES6+" />
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Responsive Design Patterns"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
                       </ListItem>
                     </List>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Typography
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", mb: 1 }}
-                    >
-                      Tools & Build
-                    </Typography>
-                    <List dense>
-                      <ListItem>
-                        <ListItemText primary="Vite" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText primary="ESLint" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText primary="LocalStorage API" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText primary="CSS-in-JS" />
-                      </ListItem>
-                    </List>
-                  </Grid>
+                  </Card>
                 </Grid>
-              </Box>
+                <Grid item md={8} xs={12}>
+                  <Card
+                    sx={{
+                      p: 4,
+                      height: "100%",
+                      background: "linear-gradient(135deg, #ab47bc 0%, #9c27b0 50%, #8e24aa 100%)",
+                      color: "white",
+                      borderRadius: "20px",
+                      boxShadow: "0 8px 32px rgba(171, 71, 188, 0.3)",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "translateY(-5px)",
+                        boxShadow: "0 12px 40px rgba(171, 71, 188, 0.4)",
+                      },
+                    }}
+                  >
+                    <Typography variant="h5" sx={{ mb: 3, fontWeight: 700, textShadow: "0 2px 4px rgba(0,0,0,0.3)" }}>
+                      ⚛️ Frontend Stack
+                    </Typography>
+                    <List sx={{ "& .MuiListItem-root": { py: 0.8 } }}>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="React 19+"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Material-UI v5"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="React Router v7+"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="JavaScript ES6+"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                    </List>
+                  </Card>
+                </Grid>
+                <Grid item md={8} xs={12}>
+                  <Card
+                    sx={{
+                      p: 4,
+                      height: "100%",
+                      background: "linear-gradient(135deg, #ba68c8 0%, #ab47bc 50%, #9c27b0 100%)",
+                      color: "white",
+                      borderRadius: "20px",
+                      boxShadow: "0 8px 32px rgba(186, 104, 200, 0.3)",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "translateY(-5px)",
+                        boxShadow: "0 12px 40px rgba(186, 104, 200, 0.4)",
+                      },
+                    }}
+                  >
+                    <Typography variant="h5" sx={{ mb: 3, fontWeight: 700, textShadow: "0 2px 4px rgba(0,0,0,0.3)" }}>
+                      🔧 Tools & Build
+                    </Typography>
+                    <List sx={{ "& .MuiListItem-root": { py: 0.8 } }}>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Vite"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="ESLint"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="LocalStorage API"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="CSS-in-JS"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                    </List>
+                  </Card>
+                </Grid>
+              </Grid>
             </CardContent>
           </Collapse>
         </Card>
@@ -786,11 +1110,11 @@ const BookTrackerHome = () => {
           </Box>
           <Collapse in={expandedSections.usage}>
             <CardContent sx={{ p: 4 }}>
-              <Typography variant="h6" sx={{ mb: 3 }}>
+              <Typography variant="h6" sx={{ mb: 3, textAlign: "center", color: "text.primary", fontWeight: 600 }}>
                 Getting Started
               </Typography>
 
-              <Box sx={{ mb: 3 }}>
+              <Box sx={{ mb: 4, textAlign: "center" }}>
                 <Button
                   variant="contained"
                   startIcon={<AddIcon />}
@@ -804,33 +1128,126 @@ const BookTrackerHome = () => {
                 </Typography>
               </Box>
 
-              <Box sx={{ mb: 4 }}>
-                <Typography variant="h6" sx={{ mb: 3, fontWeight: "bold" }}>
-                  Step-by-Step Guide
-                </Typography>
-                <Box component="ol" sx={{ pl: 2 }}>
-                  <Typography component="li" sx={{ mb: 1 }}>
-                    <strong>Add Books:</strong> Use the "Add Book" button to
-                    create entries for books you want to track
-                  </Typography>
-                  <Typography component="li" sx={{ mb: 1 }}>
-                    <strong>Set Status:</strong> Categorize books as Wishlist,
-                    Currently Reading, or Finished
-                  </Typography>
-                  <Typography component="li" sx={{ mb: 1 }}>
-                    <strong>Track Progress:</strong> Update reading progress for
-                    current books
-                  </Typography>
-                  <Typography component="li" sx={{ mb: 1 }}>
-                    <strong>Navigate:</strong> Use the top navigation to view
-                    different book categories
-                  </Typography>
-                  <Typography component="li" sx={{ mb: 1 }}>
-                    <strong>Monitor:</strong> Check your about page for reading
-                    statistics and progress
-                  </Typography>
-                </Box>
-              </Box>
+              <Grid container spacing={3}>
+                <Grid item md={8} xs={12}>
+                  <Card
+                    sx={{
+                      p: 4,
+                      height: "100%",
+                      background: "linear-gradient(135deg, #9c27b0 0%, #8e24aa 50%, #7b1fa2 100%)",
+                      color: "white",
+                      borderRadius: "20px",
+                      boxShadow: "0 8px 32px rgba(156, 39, 176, 0.3)",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "translateY(-5px)",
+                        boxShadow: "0 12px 40px rgba(156, 39, 176, 0.4)",
+                      },
+                    }}
+                  >
+                    <Typography variant="h5" sx={{ mb: 3, fontWeight: 700, textShadow: "0 2px 4px rgba(0,0,0,0.3)" }}>
+                      📖 Basic Operations
+                    </Typography>
+                    <List sx={{ "& .MuiListItem-root": { py: 0.8 } }}>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Add Books: Use the 'Add Book' button to create entries"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Set Status: Categorize as Wishlist, Reading, or Finished"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Track Progress: Update reading progress for current books"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                    </List>
+                  </Card>
+                </Grid>
+                <Grid item md={8} xs={12}>
+                  <Card
+                    sx={{
+                      p: 4,
+                      height: "100%",
+                      background: "linear-gradient(135deg, #ab47bc 0%, #9c27b0 50%, #8e24aa 100%)",
+                      color: "white",
+                      borderRadius: "20px",
+                      boxShadow: "0 8px 32px rgba(171, 71, 188, 0.3)",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "translateY(-5px)",
+                        boxShadow: "0 12px 40px rgba(171, 71, 188, 0.4)",
+                      },
+                    }}
+                  >
+                    <Typography variant="h5" sx={{ mb: 3, fontWeight: 700, textShadow: "0 2px 4px rgba(0,0,0,0.3)" }}>
+                      🧭 Navigation & Monitoring
+                    </Typography>
+                    <List sx={{ "& .MuiListItem-root": { py: 0.8 } }}>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Navigate: Use top navigation to view different categories"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Monitor: Check Library page for reading statistics"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                      <ListItem sx={{ py: 0.8 }}>
+                        <ListItemText
+                          primary="Export: Download your data as JSON for backup"
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.2)"
+                            }
+                          }}
+                        />
+                      </ListItem>
+                    </List>
+                  </Card>
+                </Grid>
+              </Grid>
             </CardContent>
           </Collapse>
         </Card>
@@ -867,49 +1284,209 @@ const BookTrackerHome = () => {
           </Box>
           <Collapse in={expandedSections.qa}>
             <CardContent sx={{ p: 4 }}>
-              <Box sx={{ mb: 4 }}>
-                <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
-                  How is my data stored?
-                </Typography>
-                <Typography sx={{ mb: 3 }}>
-                  All your book data is stored locally in your browser's
-                  localStorage. This means your data stays private and is
-                  available offline, but only on the device you're using.
-                </Typography>
-              </Box>
+              <Grid container spacing={3}>
+                {/* Design & Features */}
+                <Grid item lg={8} md={10} sm={12} xs={12}>
+                  <Card
+                    sx={{
+                      p: 4,
+                      height: "100%",
+                      background: "linear-gradient(135deg, #9c27b0 0%, #8e24aa 50%, #7b1fa2 100%)",
+                      color: "white",
+                      borderRadius: "20px",
+                      boxShadow: "0 8px 32px rgba(156, 39, 176, 0.3)",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "translateY(-5px)",
+                        boxShadow: "0 12px 40px rgba(156, 39, 176, 0.4)",
+                      },
+                    }}
+                  >
+                    <Typography variant="h5" sx={{ mb: 3, fontWeight: 700, textShadow: "0 2px 4px rgba(0,0,0,0.3)" }}>
+                      🎨 Design & Features
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ mb: 1, fontWeight: "bold" }}
+                    >
+                      Requirements & Design Process:
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{ mb: 2, fontSize: "0.85rem" }}
+                    >
+                      User-centered approach identifying personal pain points in
+                      reading habit tracking, with intuitive navigation and
+                      real-time progress visualization.
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ mb: 1, fontWeight: "bold" }}
+                    >
+                      Key Features:
+                    </Typography>
+                    <Typography variant="body2" sx={{ fontSize: "0.85rem" }}>
+                      Comprehensive book management, status categorization,
+                      progress tracking, search/filtering, statistics, and data
+                      export.
+                    </Typography>
+                  </Card>
+                </Grid>
 
-              <Box sx={{ mb: 4 }}>
-                <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
-                  Can I export my book data?
-                </Typography>
-                <Typography sx={{ mb: 3 }}>
-                  Yes! The application includes export functionality to download
-                  your book collection as a JSON file, which you can then import
-                  on another device or keep as a backup.
-                </Typography>
-              </Box>
+                {/* Data & Processing */}
+                <Grid item lg={8} md={10} sm={12} xs={12}>
+                  <Card
+                    sx={{
+                      p: 4,
+                      height: "100%",
+                      background: "linear-gradient(135deg, #ab47bc 0%, #9c27b0 50%, #8e24aa 100%)",
+                      color: "white",
+                      borderRadius: "20px",
+                      boxShadow: "0 8px 32px rgba(171, 71, 188, 0.3)",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "translateY(-5px)",
+                        boxShadow: "0 12px 40px rgba(171, 71, 188, 0.4)",
+                      },
+                    }}
+                  >
+                    <Typography variant="h5" sx={{ mb: 3, fontWeight: 700, textShadow: "0 2px 4px rgba(0,0,0,0.3)" }}>
+                      📊 Data Processing
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ mb: 1, fontWeight: "bold" }}
+                    >
+                      Data Sources:
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{ mb: 2, fontSize: "0.85rem" }}
+                    >
+                      Manual user input + Google Books API for metadata. Stored
+                      locally in localStorage for privacy and offline access.
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ mb: 1, fontWeight: "bold" }}
+                    >
+                      Processing & Display:
+                    </Typography>
+                    <Typography variant="body2" sx={{ fontSize: "0.85rem" }}>
+                      React Context for state management, JavaScript array
+                      methods for filtering/sorting, Material-UI for responsive
+                      layouts.
+                    </Typography>
+                  </Card>
+                </Grid>
 
-              <Box sx={{ mb: 4 }}>
-                <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
-                  Is this application mobile-friendly?
-                </Typography>
-                <Typography sx={{ mb: 3 }}>
-                  Absolutely! The application is built with a mobile-first
-                  approach and uses responsive design principles to ensure a
-                  great experience on all device sizes.
-                </Typography>
-              </Box>
+                {/* User Interaction & Code Structure */}
+                <Grid item lg={8} md={10} sm={12} xs={12}>
+                  <Card
+                    sx={{
+                      p: 4,
+                      height: "100%",
+                      background: "linear-gradient(135deg, #ba68c8 0%, #ab47bc 50%, #9c27b0 100%)",
+                      color: "white",
+                      borderRadius: "20px",
+                      boxShadow: "0 8px 32px rgba(186, 104, 200, 0.3)",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "translateY(-5px)",
+                        boxShadow: "0 12px 40px rgba(186, 104, 200, 0.4)",
+                      },
+                    }}
+                  >
+                    <Typography variant="h5" sx={{ mb: 3, fontWeight: 700, textShadow: "0 2px 4px rgba(0,0,0,0.3)" }}>
+                      🔧 Interaction & Structure
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ mb: 1, fontWeight: "bold" }}
+                    >
+                      User Interactions:
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{ mb: 2, fontSize: "0.85rem" }}
+                    >
+                      CRUD operations via forms, progress sliders, navigation,
+                      search/filter, statistics viewing, JSON export, responsive
+                      touch interfaces.
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ mb: 1, fontWeight: "bold" }}
+                    >
+                      Code Organization:
+                    </Typography>
+                    <Typography variant="body2" sx={{ fontSize: "0.85rem" }}>
+                      Modular component-based architecture, reusable components,
+                      centralized state management, clean separation of
+                      concerns.
+                    </Typography>
+                  </Card>
+                </Grid>
 
-              <Box sx={{ mb: 4 }}>
-                <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
-                  Can I set reading goals?
-                </Typography>
-                <Typography>
-                  The application tracks your yearly reading progress with a
-                  default goal of 12 books per year. You can monitor your
-                  progress toward this goal on the about page.
-                </Typography>
-              </Box>
+                {/* Technology & Future */}
+                <Grid item lg={8} md={10} sm={12} xs={12}>
+                  <Card
+                    sx={{
+                      p: 4,
+                      height: "100%",
+                      background: "linear-gradient(135deg, #6a1b9a 0%, #7b1fa2 50%, #4a148c 100%)",
+                      color: "white",
+                      borderRadius: "20px",
+                      boxShadow: "0 8px 32px rgba(106, 27, 154, 0.3)",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "translateY(-5px)",
+                        boxShadow: "0 12px 40px rgba(106, 27, 154, 0.4)",
+                      },
+                    }}
+                  >
+                    <Typography variant="h5" sx={{ mb: 3, fontWeight: 700, textShadow: "0 2px 4px rgba(0,0,0,0.3)" }}>
+                      ⚛️ Technology & Future
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ mb: 1, fontWeight: "bold" }}
+                    >
+                      React Hooks Used:
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{ mb: 2, fontSize: "0.85rem" }}
+                    >
+                      useState, useEffect, useContext, useNavigate, useMemo,
+                      plus custom hooks (useBooks, useTheme).
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ mb: 1, fontWeight: "bold" }}
+                    >
+                      External Libraries:
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{ mb: 2, fontSize: "0.85rem" }}
+                    >
+                      Material-UI (UI components), React Router (navigation),
+                      Vite (build tool), ESLint (code quality).
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ mb: 1, fontWeight: "bold" }}
+                    >
+                      Future Extensions:
+                    </Typography>
+                    <Typography variant="body2" sx={{ fontSize: "0.85rem" }}>
+                      Cloud sync, social features, enhanced analytics,
+                      recommendations, reading challenges, e-book integration.
+                    </Typography>
+                  </Card>
+                </Grid>
+              </Grid>
             </CardContent>
           </Collapse>
         </Card>
@@ -924,7 +1501,8 @@ const BookTrackerHome = () => {
           py: 4,
           borderTop: "1px solid",
           borderColor: "divider",
-          backgroundColor: "rgba(255, 255, 255, 0.8)",
+          backgroundColor: (theme) =>
+            theme.palette.mode === 'dark' ? 'rgba(66, 66, 66, 0.95)' : 'rgba(255, 255, 255, 0.8)',
           backdropFilter: "blur(10px)",
           borderRadius: "15px",
           maxWidth: "1200px",
