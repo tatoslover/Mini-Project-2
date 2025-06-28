@@ -1,4 +1,4 @@
-## 📚 BookTrackerDemo - Book Management App
+## 📚 BookTrackerDemo
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Repo-blue?logo=github)](https://github.com/tatoslover/Mini-Project-2)
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Netlify-brightgreen?logo=netlify)](https://booktrackerdemo.netlify.app)
 
