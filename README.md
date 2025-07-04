@@ -1,14 +1,51 @@
-## 📚 BookTrackerDemo
+# 📚 BookTrackerDemo
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Repo-blue?logo=github)](https://github.com/tatoslover/Mini-Project-2)
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Netlify-brightgreen?logo=netlify)](https://booktrackerdemo.netlify.app)
 
 Track your reading journey with progress monitoring, book discovery, and personalized statistics. This is a demo version showcasing the full functionality of the BookTracker application.
 
-- 📖 Powered by [Google Books API](https://developers.google.com/books) (~40M books)
-- 🎨 Built with React 19, Material-UI, React Router
-- ⚡ Fast, responsive, animated interface with theme switching
+## 🚀 **Key Technologies**
+- 📖 **Data Source**: [Google Books API](https://developers.google.com/books) (~40M books)
+- 🎨 **Frontend**: React 19, Material-UI, React Router
+- ⚡ **Features**: Fast, responsive, animated interface with theme switching
 
-## Project File Structure Overview
+## 🎯 **Core Features**
+- **Personal Reading Library**: Track books across Wishlist, Currently Reading, and Finished collections
+- **Progress Monitoring**: Visual progress bars and reading statistics with goal tracking
+- **Book Discovery**: Integrated Google Books API search with auto-fill functionality
+- **Interactive Dashboard**: Reading analytics, recently finished books, and motivational insights
+- **Theme Switching**: Light/Dark mode with system preference detection and persistence
+
+## 🚀 **Getting Started**
+
+### Option 1: Quick Demo
+```bash
+# Clone the repository
+git clone https://github.com/tatoslover/Mini-Project-2.git
+cd Mini-Project-2
+
+# Open in browser (if built version available)
+open dist/index.html
+```
+
+### Option 2: Development Setup
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+```
+
+### Live Demo
+🌐 **[View Live Demo](https://booktrackerdemo.netlify.app)**
+
+---
+
+## 📁 **Project Structure**
 
 ### Root Files
 - `index.html` - Main entry point with React root container
@@ -132,10 +169,10 @@ Track your reading journey with progress monitoring, book discovery, and persona
 
 ---
 
-## 🎯 Key Features & Functionality
+## 🛠️ **Technical Features**
 
 <details>
-<summary>⚙️ Performance Optimizations</summary>
+<summary>⚡ Performance Optimizations</summary>
 
 - React.memo for expensive component re-renders
 - useCallback optimization for event handlers
@@ -145,7 +182,7 @@ Track your reading journey with progress monitoring, book discovery, and persona
 </details>
 
 <details>
-<summary>📊 Data Management</summary>
+<summary>🗄️ Data Management</summary>
 
 - Google Books API integration for book discovery
 - Local storage persistence across browser sessions
@@ -155,7 +192,7 @@ Track your reading journey with progress monitoring, book discovery, and persona
 </details>
 
 <details>
-<summary>📱 User Experience</summary>
+<summary>🎨 User Experience</summary>
 
 - Mobile-first responsive design with Material-UI
 - Smooth page transitions and loading animations
@@ -166,7 +203,7 @@ Track your reading journey with progress monitoring, book discovery, and persona
 </details>
 
 <details>
-<summary>🧱 Technical Architecture</summary>
+<summary>🏗️ Technical Architecture</summary>
 
 - Modern React 19 with functional components and hooks
 - Context API for global state management
@@ -177,7 +214,7 @@ Track your reading journey with progress monitoring, book discovery, and persona
 </details>
 
 <details>
-<summary>🎨 Advanced React Patterns</summary>
+<summary>⚙️ Advanced React Patterns</summary>
 
 - useReducer for complex state management
 - Custom hooks for reusable logic
@@ -189,10 +226,10 @@ Track your reading journey with progress monitoring, book discovery, and persona
 
 ---
 
-## 🚀 React Concepts Demonstrated
+## 🚀 **React Concepts Demonstrated**
 
 <details>
-<summary>🪝 React Hooks Mastery</summary>
+<summary>🎣 React Hooks Mastery</summary>
 
 - `useState` - Local component state management
 - `useEffect` - Side effects and lifecycle management
@@ -204,7 +241,7 @@ Track your reading journey with progress monitoring, book discovery, and persona
 </details>
 
 <details>
-<summary>🌐 Context API Implementation</summary>
+<summary>🔗 Context API Implementation</summary>
 
 - Multiple context providers (BookContext, ThemeContext)
 - Provider pattern for clean state separation
@@ -213,7 +250,7 @@ Track your reading journey with progress monitoring, book discovery, and persona
 </details>
 
 <details>
-<summary>🛣️ React Router Integration</summary>
+<summary>🧭 React Router Integration</summary>
 
 - Nested routing with layout components
 - Programmatic navigation
@@ -227,7 +264,7 @@ The application demonstrates production-ready React development with modern patt
 
 ---
 
-## 📚 Demo Book Collection
+## 📚 **Demo Book Collection**
 
 The application includes a curated collection of 30 demo books across different categories, featuring a mix of classic literature, contemporary fiction, non-fiction, and popular titles to showcase the full functionality of the reading tracker.
 
